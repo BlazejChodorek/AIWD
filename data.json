@@ -1,0 +1,22 @@
+{
+  "cars": [
+    {
+      "brand": "Opel",
+      "model": "Astra",
+      "enginePower": 135,
+      "acceleration": 19
+    },
+    {
+      "brand": "Audi",
+      "model": "A4",
+      "enginePower": 189,
+      "acceleration": 9
+    },
+    {
+      "brand": "Ford",
+      "model": "Mondeo",
+      "enginePower": 169,
+      "acceleration": 13
+    }
+  ]
+}

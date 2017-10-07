@@ -50,12 +50,17 @@ class Car
     private $acceleration;
 
 
-    public function __construct($brand, $model, $enginepower, $acceleration)
+    public function __construct($brand = null, $model = null, $enginepower = null, $acceleration = null)
     {
         $this->brand = $brand;
         $this->model = $model;
         $this->enginepower = $enginepower;
         $this->acceleration = $acceleration;
+    }
+
+    public function getAllCars($doctrine)
+    {
+        return $doctrine->getRepository('AppBundle:Car')->findAll();
     }
 
 

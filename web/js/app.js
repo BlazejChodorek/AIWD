@@ -1,5 +1,29 @@
 $(document).ready(function () {
 
+    function smoothScroll(target, offset) {
+        $('html, body').animate({
+            scrollTop: $(target).offset().top - offset
+        }, 1000);
+    }
+
+    $('.js-scroll').on('click', function (event) {
+        event.preventDefault();
+        var $this = $(this);
+        var url = $this.attr('href');
+
+        var offset = $('myPanel').outerHeight();
+        if (!$('myPanel').hasClass('padded-top') && window.innerWidth < 968) {
+            offset += 72;
+        }
+
+        if ($this.hasClass('arrow-down')) {
+            offset = $('myPanel').outerHeight();
+        }
+
+        $this.parents('ul').removeClass('is-shown');
+        smoothScroll(url, offset);
+    });
+
     function readSingleFile(e) {
         var file = e.target.files[0];
         if (!file) {
@@ -44,6 +68,7 @@ function myAjax(myUrl, contents, divClass) {
         },
         error: function (response) {
             // console.log("error: ", response);
+            $(divClass).html('<pre>' + 'Niepoprawny format pliku' + '</pre>');
 
         },
     });

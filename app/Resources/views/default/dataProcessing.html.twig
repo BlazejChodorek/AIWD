@@ -1,11 +1,25 @@
+<table style="width:100%">
+    <tr>
+        <th>id</th>
+        <th>brand</th>
+        <th>model</th>
+        <th>engine power</th>
+        <th>acceleration</th>
+    </tr>
 
-{{ cars }}
-
-{#{% for car in cars %}#}
-    {#id: <b>{{ car.id }}</b>#}
-    {#brand: <b>{{ car.brand }}</b>#}
-    {#model: <b>{{ car.model }}</b>#}
-    {#enginePower: <b>{{ car.enginePower }}</b>#}
-    {#acceleration: <b>{{ car.acceleration }}</b>#}
-    {#<br/>#}
-{#{% endfor %}#}
+    {% for car in cars %}
+        <tr>
+            <td>{{ car.id }}</td>
+            <td>{{ car.brand }}</td>
+            <td>{{ car.model }}</td>
+            <td>{{ car.enginePower }} kW</td>
+            <td>{{ car.acceleration }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{#{% if car.enginePower < 10 %}#}
+                {#{{ car.enginePower }}#}
+                {#{% elseif car.enginePower > 150 %}#}
+                {#{% else %}#}
+                {#{{ car.enginePower }}#}
+                {#{% endif %}#}

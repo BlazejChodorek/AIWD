@@ -45,7 +45,11 @@ class DefaultController extends Controller
      */
     public function dataProcessingAction(Request $request)
     {
-        return $this->render('default/dataProcessing.html.twig', array(//            'cars' => $this->cars,
+        $car = new Car();
+        $cars = $car->getAllCars($this->getDoctrine()->getManager());
+
+        return $this->render('default/dataProcessing.html.twig', array(
+            'cars' => $cars,
         ));
     }
 

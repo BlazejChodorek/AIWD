@@ -2,25 +2,25 @@
 
 {% block body %}
 
-    <div class="myPanel">
-        <ul>
-            <li><a href="#1">
-                    <div>1. Pobranie danych z pliku</div>
-                </a></li>
-            <li><a href="#2">
-                    <div>2. Wstepna obróbka danych</div>
-                </a></li>
-            <li><a href="#3">
-                    <div>3. Analiza statystyczna</div>
-                </a></li>
-            <li><a href="#4">
-                    <div>4. Estymacja</div>
-                </a></li>
-            <li><a href="#5">
-                    <div>5. Wizualizacja danych</div>
-                </a></li>
-        </ul>
-    </div>
+    {#<div class="myPanel">#}
+    {#<ul>#}
+    {#<li><a href="#1">#}
+    {#<div>1. Pobranie danych z pliku</div>#}
+    {#</a></li>#}
+    {#<li><a href="#2">#}
+    {#<div>2. Wstepna obróbka danych</div>#}
+    {#</a></li>#}
+    {#<li><a href="#3">#}
+    {#<div>3. Analiza statystyczna</div>#}
+    {#</a></li>#}
+    {#<li><a href="#4">#}
+    {#<div>4. Estymacja</div>#}
+    {#</a></li>#}
+    {#<li><a href="#5">#}
+    {#<div>5. Wizualizacja danych</div>#}
+    {#</a></li>#}
+    {#</ul>#}
+    {#</div>#}
 
     <div id="wrapper">
         <div id="container">
@@ -33,8 +33,8 @@
             </div>
 
             <div id="next">
-                <div class="element" id="1">
-                    <h2>1. Pobranie danych z pliku .json</h2>
+                <div class="element" id="pierwszy">
+                    <h2 id="title1">1. Plik .json</h2>
 
                     {#<span class="file-content" id="file-content">#}
                     {#<input class="file-input" type="file" id="file-input"/>#}
@@ -46,36 +46,43 @@
 
                 </div>
 
-                <div class="element arrow-down js-scroll" id="2">
-                    <h2>2. Wstepna obróbka danych</h2>
+                <div class="element arrow-down js-scroll" id="drugi">
+                    <h2 id="title2">2. Wstepna obróbka danych</h2>
 
 
                     <span class="btn btn-default btn-file data-processing" id="file-content">
-                        <button>GENERUJ<input class="generate" type="file"/>
+                        <button>OBRÓBKA DANYCH<input class="generateTable" type="file"/>
                         </button>
                     </span>
 
                 </div>
 
-                <div class="element" id="3">
-                    <h2>3. Analiza statystyczna</h2>
+                <div class="element" id="trzeci">
+                    <h2 id="title3">3. Analiza statystyczna</h2>
+                    <span class="btn btn-default btn-file data-analysis" id="file-content">
+                        <button>GENERUJ ANALIZĘ STATYSTYCZNĄ DANYCH<input class="generateAnalysis" type="file"/>
+                        </button>
+                    </span>
                 </div>
 
-                <div class="element" id="4">
-                    <h2>4. Estymacja</h2>
-                </div>
+                {#<div class="element" id="czwarty">#}
+                {#<h2 id="title4">4. Estymacja</h2>#}
+                {#<span class="btn btn-default btn-file data-estymacja" id="file-content">#}
+                {#<button>ESTYMACJA<input class="estymacja" type="file"/></button>#}
+                {#</span>#}
+                {#</div>#}
 
-                <div class="element" id="5">
-                    <h2>5. Wizualizacja danych</h2>
-                </div>
+                {#<div class="element" id="piaty">#}
+                {#<h2 id="title5">5. Wizualizacja danych</h2>#}
+                {#<span class="btn btn-default btn-file data-estymacja" id="file-wizualizacja">#}
+                {#<button>WIZUALIZACJA<input class="wizualizacja" type="file"/></button>#}
+                {#</span>#}
+                {#</div>#}
 
             </div>
 
         </div>
     </div>
-    <script type="text/javascript" src="/js/app.js"></script>
-    <script type="text/javascript" src="/js/loadFile.js"></script>
-
 {% endblock %}
 
 {% block stylesheets %}

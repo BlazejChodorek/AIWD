@@ -1,0 +1,71 @@
+<ul>
+    <div id="minmax">
+        <li>Wartosc minimalna oraz maksymalna</li>
+        min(enginepower) = {{ minEnginepower }}
+        max(enginepower) = {{ maxEnginepower }}
+
+        min(acceleration) = {{ minAcceleration }}
+        max(acceleration) = {{ maxAcceleration }}
+    </div>
+
+    <div id="wartOczekiwana">
+    <li>Wartosc oczekiwana</li>
+    <img src="/img/srednia-wzor.png" alt="srednia-wzor">
+
+    average(enginepower) = {{ averageEnginepower }}
+    average(acceleration) = {{ averageAcceleration }}
+    </div>
+
+    <div id="mediana">
+    <li>Mediana</li>
+    <p>Wartość cechy w szeregu uporządkowanym, powyżej i poniżej której znajduje się jednakowa liczba obserwacji</p>
+    median(enginepower) = {{ medianEnginepower }}
+    median(acceleration) = {{ medianAcceleration }}
+    </div>
+
+    <div id="SD">
+    <li>Odchylenie standardowe</li>
+
+    <img src="/img/odchylenieStandardowe-wzor.png" alt="odchylenieStandardowe-wzor">
+
+    SD(enginePower) = {{ standardDeviationEnginepower }}
+    SD(acceleration) = {{ standardDeviationAcceleration }}
+    </div>
+
+    <div id="pearson">
+    <li>współczynnika korelacji liniowej Pearsona</li>
+    </div>
+
+    <div id="regresja">
+    <li>Równanie prostej regresji</li>
+    Y = aX + b
+
+    a = {{ linearRegression.a }}
+    b = {{ linearRegression.b }}
+
+    {{ linearRegression.equation }}
+    </div>
+
+    <div id="kwartyl">
+    <li>Pierwszy kwartyl (Q1), trzeci kwartyl (Q3) oraz rozstep miedzykwartylowy (IRQ)</li>
+    Q1(enginepower) = {{ quartile1Enginepower }}
+    Q3(enginepower) = {{ quartile3Enginepower }}
+    IRQ(enginepower) = {{ quartile3Enginepower - quartile1Enginepower }}
+
+
+    Q1(acceleration) = {{ quartile1Acceleration }}
+    Q3(acceleration) = {{ quartile3Acceleration }}
+    IRQ(acceleration) = {{ quartile3Acceleration - quartile1Acceleration }}
+    </div>
+
+    <div id="pktOddalone">
+    <li>Punkty oddalone</li>
+    Q1(enginepower) = {{ quartile1Enginepower }}
+    Q2(enginepower) = {{ quartile2Enginepower }} - median
+    Q3(enginepower) = {{ quartile3Enginepower }}
+
+    Q1(acceleration) = {{ quartile1Acceleration }}
+    Q2(acceleration) = {{ quartile2Acceleration }} - median
+    Q3(acceleration) = {{ quartile3Acceleration }}
+    </div>
+</ul>

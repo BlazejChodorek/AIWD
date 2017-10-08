@@ -1,3 +1,55 @@
+.data-analysis {
+  pre {
+    ul {
+      list-style-type: circle;
+      li {
+        font-size: larger;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+#drugi {
+  display: none;
+}
+
+#trzeci {
+  display: none;
+  #minmax {
+    display: none;
+  }
+  #wartOczekiwana {
+    display: none;
+  }
+  #mediana {
+    display: none;
+  }
+  #SD {
+    display: none;
+  }
+  #pearson {
+    display: none;
+  }
+  #regresja {
+    display: none;
+  }
+  #kwartyl {
+    display: none;
+  }
+  #pktOddalone {
+    display: none;
+  }
+}
+
+#czwarty {
+  display: none;
+}
+
+#piaty {
+  display: none;
+}
+
 table, th, td {
   border: 8px solid #ffffff;
   border-collapse: collapse;
@@ -15,6 +67,16 @@ td {
   background: #ebebeb;
   padding: 0px;
   font-size: small;
+}
+
+td.invalid {
+  a {
+    text-decoration: none;
+    color: #000;
+    div {
+      border: 1px solid #ff0008;
+    }
+  }
 }
 
 tr {
@@ -55,6 +117,7 @@ div.myPanel {
 }
 
 button {
+  text-align: center;
   background-color: #f3b819;
   padding: 10px;
   width: 200px;
@@ -108,6 +171,16 @@ span.authors {
 div.element {
   margin: 20px;
   margin-bottom: 50px;
+  span {
+    padding-bottom: 30px;
+    pre {
+      font-size: small;
+    }
+  }
+
+  h2 {
+    display: none;
+  }
 }
 
 body {
@@ -157,6 +230,7 @@ code {
 
 #container {
   padding: 2em;
+  min-height: 25em;
 }
 
 #welcome, #status {

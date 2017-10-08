@@ -49,6 +49,20 @@ class Car
      */
     private $acceleration;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="createdAt", type="string", length=80, nullable=false)
+     */
+    private $createdat;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="visible", type="boolean", nullable=false)
+     */
+    private $visible;
+
 
     public function __construct($brand = null, $model = null, $enginepower = null, $acceleration = null)
     {
@@ -56,11 +70,32 @@ class Car
         $this->model = $model;
         $this->enginepower = $enginepower;
         $this->acceleration = $acceleration;
+        $this->createdat = date('Y-m-d H:i:s');
+        $this->visible = true;
     }
 
-    public function getAllCars($doctrine)
+    public function getAllCars($em)
     {
-        return $doctrine->getRepository('AppBundle:Car')->findAll();
+        $cars = $em->getRepository('AppBundle:Car')
+            ->createQueryBuilder('p')
+            ->where('p.visible = true')
+            ->getQuery()
+            ->getResult();
+
+        return $cars;
+    }
+
+    public function deleteAllCars($em)
+    {
+        $cars = $this->getAllCars($em);
+
+        foreach ($cars as $car) {
+            $updatedCar = $em->getRepository('AppBundle:Car')->find($car->getId());
+            $updatedCar->setVisible(false);
+            $em->persist($updatedCar);
+            $em->flush();
+        }
+
     }
 
 
@@ -158,6 +193,54 @@ class Car
     public function getAcceleration()
     {
         return $this->acceleration;
+    }
+
+    /**
+     * Set createdat
+     *
+     * @param string $createdat
+     *
+     * @return Car
+     */
+    public function setCreatedat($createdat)
+    {
+        $this->createdat = $createdat;
+
+        return $this;
+    }
+
+    /**
+     * Get createdat
+     *
+     * @return string
+     */
+    public function getCreatedat()
+    {
+        return $this->createdat;
+    }
+
+    /**
+     * Set visible
+     *
+     * @param boolean $visible
+     *
+     * @return Car
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
+
+        return $this;
+    }
+
+    /**
+     * Get visible
+     *
+     * @return boolean
+     */
+    public function getVisible()
+    {
+        return $this->visible;
     }
 
     /**

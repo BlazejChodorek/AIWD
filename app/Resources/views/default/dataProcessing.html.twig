@@ -1,6 +1,8 @@
+Liczba rekordów = <b>{{ cars|length }}</b>
+
 <table style="width:100%">
     <tr>
-        <th>id</th>
+        <th>№</th>
         <th>brand</th>
         <th>model</th>
         <th>engine power</th>
@@ -9,17 +11,15 @@
 
     {% for car in cars %}
         <tr>
-            <td>{{ car.id }}</td>
+            <td>{{ loop.index }}</td>
             <td>{{ car.brand }}</td>
             <td>{{ car.model }}</td>
             <td>{{ car.enginePower }} kW</td>
-            <td>{{ car.acceleration }}</td>
+            {% if car.acceleration < 10 %}
+                <td class="invalid"><a href=""><div>{{ car.acceleration }}</div></a></td>
+            {% else %}
+                <td>{{ car.acceleration }}</td>
+            {% endif %}
         </tr>
     {% endfor %}
 </table>
-{#{% if car.enginePower < 10 %}#}
-                {#{{ car.enginePower }}#}
-                {#{% elseif car.enginePower > 150 %}#}
-                {#{% else %}#}
-                {#{{ car.enginePower }}#}
-                {#{% endif %}#}

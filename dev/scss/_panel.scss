@@ -1,3 +1,21 @@
+#estimationForm {
+  display: none;
+}
+
+.popup {
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  a:hover {
+    opacity: 0.9;
+  }
+}
+
+#preloader {
+  display: none;
+}
+
 .data-analysis {
   pre {
     ul {
@@ -57,7 +75,7 @@ table, th, td {
 }
 
 th {
-  background: #f3b819;
+  background: #f4511e;
   color: #FFFFFF;
   padding: 10px;
 }
@@ -85,8 +103,14 @@ tr {
 
 tr:hover {
   td {
-    font-size: large;
+    background-color: #848484;
+    color: #FFFFFF;
   }
+}
+
+.logoutSpan {
+  padding: 20px;
+  position: fixed;
 }
 
 div.myPanel {
@@ -118,7 +142,7 @@ div.myPanel {
 
 button {
   text-align: center;
-  background-color: #f3b819;
+  background-color: #f4511e;
   padding: 10px;
   width: 200px;
   padding-right: 40px;
@@ -166,6 +190,97 @@ span.authors {
   float: right;
   font-style: italic;
   font-size: small;
+  margin-bottom: 0;
+}
+
+#startBtn {
+  width: 300px;
+  height: 80px;
+  font-size: 30px;
+  border-radius: 12px;
+  background-color: #000000;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 12px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 35px;
+  padding: 20px;
+  width: 250px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  margin-top: 80px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.button2 {
+  display: inline-block;
+  border-radius: 12px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 35px;
+  padding: 20px;
+  width: 250px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  margin-top: 80px;
+}
+
+.button2 span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button2 span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button2:hover span {
+  padding-right: 25px;
+}
+
+.button2:hover span:after {
+  opacity: 1;
+  right: 0;
 }
 
 div.element {
@@ -177,15 +292,20 @@ div.element {
       font-size: small;
     }
   }
-
   h2 {
     display: none;
   }
 }
 
 body {
-  background: #F5F5F5;
+  background: #000000;
   font: 18px/1.5 sans-serif;
+}
+
+.mainPage {
+  overflow-y: auto;
+  width: 550px;
+  height: 550px;
 }
 
 h1, h2 {
@@ -231,10 +351,24 @@ code {
 #container {
   padding: 2em;
   min-height: 25em;
+  #welcome, #status {
+    margin-bottom: 2em;
+  }
+  #welcome {
+    padding: 30px;
+    text-align: center;
+    h1 {
+      font-size: 45px;
+    }
+  }
 }
 
-#welcome, #status {
-  margin-bottom: 2em;
+.nav {
+  text-align: center;
+  position: fixed;
+  top: 550px;
+  width: 760px;
+  background-color: #5eb5e0;
 }
 
 #welcome h1 span {

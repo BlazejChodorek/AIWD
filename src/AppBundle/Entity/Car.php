@@ -59,18 +59,26 @@ class Car
     /**
      * @var boolean
      *
+     * @ORM\Column(name="original", type="boolean", nullable=false)
+     */
+    private $original;
+
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="visible", type="boolean", nullable=false)
      */
     private $visible;
 
 
-    public function __construct($brand = null, $model = null, $enginepower = null, $acceleration = null)
+    public function __construct($brand = null, $model = null, $enginepower = null, $acceleration = null, $original = null)
     {
         $this->brand = $brand;
         $this->model = $model;
         $this->enginepower = $enginepower;
         $this->acceleration = $acceleration;
         $this->createdat = date('Y-m-d H:i:s');
+        $this->original = $original;
         $this->visible = true;
     }
 
@@ -79,6 +87,30 @@ class Car
         $cars = $em->getRepository('AppBundle:Car')
             ->createQueryBuilder('p')
             ->where('p.visible = true')
+            ->getQuery()
+            ->getResult();
+
+        return $cars;
+    }
+
+    public function getOriginalCars($em)
+    {
+        $cars = $em->getRepository('AppBundle:Car')
+            ->createQueryBuilder('p')
+            ->where('p.original = true')
+            ->andWhere('p.visible = true')
+            ->getQuery()
+            ->getResult();
+
+        return $cars;
+    }
+
+    public function getProcessedCars($em)
+    {
+        $cars = $em->getRepository('AppBundle:Car')
+            ->createQueryBuilder('p')
+            ->where('p.original = false')
+            ->andWhere('p.visible = true')
             ->getQuery()
             ->getResult();
 
@@ -96,6 +128,18 @@ class Car
             $em->flush();
         }
 
+    }
+
+    public function deleteOriginalCars($em)
+    {
+        $cars = $this->getOriginalCars($em);
+
+        foreach ($cars as $car) {
+            $updatedCar = $em->getRepository('AppBundle:Car')->find($car->getId());
+            $updatedCar->setVisible(false);
+            $em->persist($updatedCar);
+            $em->flush();
+        }
     }
 
 
@@ -217,6 +261,30 @@ class Car
     public function getCreatedat()
     {
         return $this->createdat;
+    }
+
+    /**
+     * Set original
+     *
+     * @param boolean $original
+     *
+     * @return Car
+     */
+    public function setOriginal($original)
+    {
+        $this->original = $original;
+
+        return $this;
+    }
+
+    /**
+     * Get original
+     *
+     * @return boolean
+     */
+    public function getOriginal()
+    {
+        return $this->original;
     }
 
     /**

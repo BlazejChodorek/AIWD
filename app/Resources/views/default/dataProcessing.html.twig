@@ -1,4 +1,16 @@
+{% set enginePowerUnit = 'KM' %}
+{% set accelerationUnit = 's' %}
+
 Liczba rekordów = <b>{{ cars|length }}</b>
+
+Norma dla mocy silnika: <b>{{ norm.enginePowerFrom }} - {{ norm.enginePowerTo }} KM</b>
+Norma dla przyspieszenia: <b>{{ norm.accelerationFrom }} - {{ norm.accelerationTo }} s</b>
+
+Wartości odbiegające od normy zaznaczono kolorem czerwonym i <b>zostaną zastąpione wartością średnią.</b>
+
+średnia moc silnika: <b>{{ averageEnginepower }} KM</b>
+średnie przyspieszenie: <b>{{ averageAcceleration }} s</b>
+
 
 <table style="width:100%">
     <tr>
@@ -14,11 +26,17 @@ Liczba rekordów = <b>{{ cars|length }}</b>
             <td>{{ loop.index }}</td>
             <td>{{ car.brand }}</td>
             <td>{{ car.model }}</td>
-            <td>{{ car.enginePower }} kW</td>
-            {% if car.acceleration < 10 %}
-                <td class="invalid"><a href=""><div>{{ car.acceleration }}</div></a></td>
+
+            {% if car.enginePower < norm.enginePowerFrom or car.enginePower > norm.enginePowerTo %}
+                <td class="invalid"><a href=""><div>{{ car.enginePower }} {{ enginePowerUnit}}</div></a></td>
             {% else %}
-                <td>{{ car.acceleration }}</td>
+                <td>{{ car.enginePower }} {{ enginePowerUnit}} </td>
+            {% endif %}
+
+            {% if car.acceleration < norm.accelerationFrom or car.acceleration > norm.accelerationTo %}
+                <td class="invalid"><a href=""><div>{{ car.acceleration }} {{ accelerationUnit}}</div></a></td>
+            {% else %}
+                <td>{{ car.acceleration }} {{ accelerationUnit}}</td>
             {% endif %}
         </tr>
     {% endfor %}

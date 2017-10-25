@@ -9,63 +9,92 @@
     </div>
 
     <div id="wartOczekiwana">
-    <li>Wartosc oczekiwana</li>
-    <img src="/img/srednia-wzor.png" alt="srednia-wzor">
+        <li>Wartosc oczekiwana</li>
+        <img src="/img/srednia-wzor.png" alt="srednia-wzor">
 
-    average(enginepower) = {{ averageEnginepower }}
-    average(acceleration) = {{ averageAcceleration }}
+        average(enginepower) = {{ averageEnginepower }}
+        average(acceleration) = {{ averageAcceleration }}
     </div>
 
     <div id="mediana">
-    <li>Mediana</li>
-    <p>Wartość cechy w szeregu uporządkowanym, powyżej i poniżej której znajduje się jednakowa liczba obserwacji</p>
-    median(enginepower) = {{ medianEnginepower }}
-    median(acceleration) = {{ medianAcceleration }}
+        <li>Mediana</li>
+        Wartość cechy w szeregu uporządkowanym, powyżej i poniżej której znajduje się
+        jednakowa liczba obserwacji
+
+        median(enginepower) = {{ medianEnginepower }}
+        median(acceleration) = {{ medianAcceleration }}
     </div>
 
     <div id="SD">
-    <li>Odchylenie standardowe</li>
+        <li>Odchylenie standardowe</li>
 
-    <img src="/img/odchylenieStandardowe-wzor.png" alt="odchylenieStandardowe-wzor">
+        <img src="/img/odchylenieStandardowe-wzor.png" alt="odchylenieStandardowe-wzor">
 
-    SD(enginePower) = {{ standardDeviationEnginepower }}
-    SD(acceleration) = {{ standardDeviationAcceleration }}
+        SD(enginePower) = {{ standardDeviationEnginepower }}
+        SD(acceleration) = {{ standardDeviationAcceleration }}
     </div>
 
     <div id="pearson">
-    <li>współczynnika korelacji liniowej Pearsona</li>
+        <li>współczynnika korelacji liniowej Pearsona</li>
+
+        <img src="/img/pearson-wzor.png" alt="pearson-wzor">
+
+        <p><b>r = {{ pearsonCorrelation.r }}</b></p>
+        {% if pearsonCorrelation.r > 0 %}
+            <p>Rodzaj korelacji: r > 0 korelacja dodatnia – gdy wartość X rośnie to Y też</p>
+        {% elseif pearsonCorrelation.r == 0 %}
+            <p>Rodzaj korelacji: r = 0 brak korelacji – gdy X rośnie to Y czasem rośnie a czasem maleje</p>
+        {% elseif pearsonCorrelation.r < 0 %}
+            <p>Rodzaj korelacji: r < 0 korelacja ujemna – gdy X rośnie to Y maleje</p>
+        {% endif %}
+
+
+        <p><b>|r| = {{ pearsonCorrelation.rModulus }}</b></p>
+        {% if pearsonCorrelation.rModulus < 0.2 %}
+            <p>Siła korelacji: |r| < 0.2 – brak związku liniowego</p>
+        {% elseif pearsonCorrelation.rModulus > 0.2 and  pearsonCorrelation.rModulus < 0.4 %}
+            <p>Siła korelacji: |r| (0.2 – 0.4) – słaba zależność</p>
+        {% elseif pearsonCorrelation.rModulus > 0.4 and  pearsonCorrelation.rModulus < 0.7 %}
+            <p>|r| (0.4 -0.7) – umiarkowana zależność</p>
+        {% elseif pearsonCorrelation.rModulus > 0.7 and  pearsonCorrelation.rModulus < 0.9 %}
+            <p>|r| (0.7 – 0.9) – dość silna zależność</p>
+        {% elseif pearsonCorrelation.rModulus > 0.9 %}
+            <p>|r| > 0.9 – bardzo silna zależność</p>
+        {% endif %}
     </div>
 
     <div id="regresja">
-    <li>Równanie prostej regresji</li>
-    Y = aX + b
+        <li>Równanie prostej regresji</li>
+        Y = aX + b
 
-    a = {{ linearRegression.a }}
-    b = {{ linearRegression.b }}
+        <img src="/img/regresjaLiniowa-wzor.png" alt="regresjaLiniowa-wzor">
 
-    {{ linearRegression.equation }}
+        a = {{ linearRegression.a }}
+        b = {{ linearRegression.b }}
+
+        {{ linearRegression.equation }}
     </div>
 
     <div id="kwartyl">
-    <li>Pierwszy kwartyl (Q1), trzeci kwartyl (Q3) oraz rozstep miedzykwartylowy (IRQ)</li>
-    Q1(enginepower) = {{ quartile1Enginepower }}
-    Q3(enginepower) = {{ quartile3Enginepower }}
-    IRQ(enginepower) = {{ quartile3Enginepower - quartile1Enginepower }}
+        <li>Pierwszy kwartyl (Q1), trzeci kwartyl (Q3) oraz rozstep miedzykwartylowy (IRQ)</li>
+        Q1(enginepower) = {{ quartile1Enginepower }}
+        Q3(enginepower) = {{ quartile3Enginepower }}
+        IRQ(enginepower) = {{ quartile3Enginepower - quartile1Enginepower }}
 
 
-    Q1(acceleration) = {{ quartile1Acceleration }}
-    Q3(acceleration) = {{ quartile3Acceleration }}
-    IRQ(acceleration) = {{ quartile3Acceleration - quartile1Acceleration }}
+        Q1(acceleration) = {{ quartile1Acceleration }}
+        Q3(acceleration) = {{ quartile3Acceleration }}
+        IRQ(acceleration) = {{ quartile3Acceleration - quartile1Acceleration }}
     </div>
 
     <div id="pktOddalone">
-    <li>Punkty oddalone</li>
-    Q1(enginepower) = {{ quartile1Enginepower }}
-    Q2(enginepower) = {{ quartile2Enginepower }} - median
-    Q3(enginepower) = {{ quartile3Enginepower }}
+        <li>Punkty oddalone</li>
+        Q1(enginepower) = {{ quartile1Enginepower }}
+        Q2(enginepower) = {{ quartile2Enginepower }} - median
+        Q3(enginepower) = {{ quartile3Enginepower }}
 
-    Q1(acceleration) = {{ quartile1Acceleration }}
-    Q2(acceleration) = {{ quartile2Acceleration }} - median
-    Q3(acceleration) = {{ quartile3Acceleration }}
+        Q1(acceleration) = {{ quartile1Acceleration }}
+        Q2(acceleration) = {{ quartile2Acceleration }} - median
+        Q3(acceleration) = {{ quartile3Acceleration }}
     </div>
 </ul>

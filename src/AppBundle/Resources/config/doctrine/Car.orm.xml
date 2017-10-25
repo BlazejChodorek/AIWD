@@ -29,6 +29,7 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="original" type="boolean" column="original" nullable="false"/>
     <field name="visible" type="boolean" column="visible" nullable="false"/>
   </entity>
 </doctrine-mapping>

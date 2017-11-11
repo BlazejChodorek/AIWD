@@ -9,28 +9,25 @@ $(document).ready(function () {
         reader.onload = function (e) {
             contents = e.target.result;
             myAjax("/file", contents, '.file-content');
+
+            myAjax("/data-processing", null, ".data-processing");
+
+            myAjax("/data-processing", null, ".data-analysys");
+
+            myAjax("/data-analysis", null, ".data-analysis");
+            myAjax("/estimation", 5, ".data-estymacja");
+
+            displayItemById('estimationForm', 7000);
+
         };
 
         reader.readAsText(file);
-        displayItemById('title1');
-        displayItemById('drugi', 2000);
     }
 
     document.getElementById('file-input')
         .addEventListener('change', readSingleFile, false);
 
 
-    $(document).on("click", ".generateTable", function (event) {
-
-        console.log("clicked generateTable");
-
-        event.preventDefault();
-        myAjax("/data-processing", null, ".data-processing");
-        // document.getElementById('form-popup').style.display = 'block';
-        // $('.mainPage').addClass("blocked");
-        displayItemById('title2');
-        displayItemById('trzeci', 2000);
-    });
 
     $(document).on("click", ".blocked", function (event) {
         document.getElementById('form-popup').style.display = 'none';
@@ -40,30 +37,8 @@ $(document).ready(function () {
 
     $(document).on("click", ".generateAnalysis", function (event) {
 
-        console.log("clicked generateAnalysis");
-
-        event.preventDefault();
-        myAjax("/data-analysis", null, ".data-analysis");
-        displayItemById('title3');
-        displayItemById('minmax', 2000);
-        displayItemById('wartOczekiwana', 3000);
-        displayItemById('mediana', 4000);
-        displayItemById('SD', 5000);
-        displayItemById('pearson', 6000);
-        displayItemById('regresja', 7000);
-        displayItemById('kwartyl', 8000);
-        displayItemById('pktOddalone', 9000);
-        displayItemById('czwarty', 12000);
     });
 
-    $(document).on("click", ".estymacja", function (event) {
-
-        event.preventDefault();
-        myAjax("/estimation", 5, ".data-estymacja");
-        displayItemById('title4');
-        displayItemById('estimationForm', 2000);
-        // displayItemById('piaty', 3000);
-    });
 
     $(document).on("click", ".estymacjaZmien", function (event) {
 
@@ -104,6 +79,7 @@ $(document).ready(function () {
         popup("logout");
     });
 
+    //formularz estymacja panel
     $(document).on("click", "#submit", function (event) {
 
         event.preventDefault();
@@ -111,8 +87,6 @@ $(document).ready(function () {
         var form = {};
         form.formValue = $('#formValue').val();
         form.formUnit = $('#formUnit').val();
-
-        // myAjax("/calculate", form, ".calculate");
 
         $.ajax({
             url: "/calculate",
@@ -122,7 +96,7 @@ $(document).ready(function () {
             ajaxProcessData: true,
             success: function (response) {
 
-                $('.calculate').html('<pre>' + response + '</pre>');
+                $('.calculate').html(response);
             },
             error: function (response) {
                 // console.log("error: ", response);
@@ -141,7 +115,7 @@ function myAjax(myUrl, contents, divClass) {
         ajaxContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         ajaxProcessData: true,
         success: function (response) {
-            $(divClass).html('<pre>' + response + '</pre>');
+            $(divClass).html(response);
         },
         error: function (response) {
             document.getElementById('form-popup').style.display = 'block';

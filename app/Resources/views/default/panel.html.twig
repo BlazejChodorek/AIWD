@@ -1,0 +1,31 @@
+<div class="myPanel">
+    <h2>Menu</h2>
+    <a href="#dane">
+        <div>Dane</div>
+    </a>
+    <a href="#estymacja">
+        <div>Estymacja</div>
+    </a>
+    <a href="#wizualizacja">
+        <div>Wizualizacja danych</div>
+    </a>
+    <a href="#plik">
+        <div>Wczytaj nowy plik</div>
+    </a>
+
+    <form id="estimationForm">
+        <div class="norm">
+            norma dla mocy silnika: <b>{{ norm.enginePowerFrom }} - {{ norm.enginePowerTo }} KM</b>
+            norma dla przyspieszenia: <b>{{ norm.accelerationFrom }} - {{ norm.accelerationTo }} s</b>
+        </div>
+        <div class="form">
+            <input id="formValue" class="inputForm" type="number" name="value">
+            <select id="formUnit" name="unit">
+                <option value="KM">KM</option>
+                <option value="s">s</option>
+            </select>
+            <input id="submit" class="submitForm" type="submit" value="Przelicz">
+            <div class="calculate"></div>
+        </div>
+    </form>
+</div>

@@ -1,100 +1,74 @@
-<ul>
-    <div id="minmax">
-        <li>Wartosc minimalna oraz maksymalna</li>
-        min(enginepower) = {{ minEnginepower }}
-        max(enginepower) = {{ maxEnginepower }}
+<h2>Analiza statystyczna</h2>
 
-        min(acceleration) = {{ minAcceleration }}
-        max(acceleration) = {{ maxAcceleration }}
+<div>
+    <b>min</b>(enginepower) = {{ minEnginepower }}<br/>
+    <b>max</b>(enginepower) = {{ maxEnginepower }}
+</div>
+
+<div>
+    <b>min</b>(acceleration) = {{ minAcceleration }}<br/>
+    <b>max</b>(acceleration) = {{ maxAcceleration }}
+</div>
+
+<div>
+    <b>average</b>(enginepower) = {{ averageEnginepower }}
+    <b>average</b>(acceleration) = {{ averageAcceleration }}
+</div>
+
+<div>
+    <b>median</b>(enginepower) = {{ medianEnginepower }} <br/>
+    <b>median</b>(acceleration) = {{ medianAcceleration }}
+</div>
+
+<div>
+    <b>SD</b>(enginePower) = {{ standardDeviationEnginepower }} <br/>
+    <b>SD</b>(acceleration) = {{ standardDeviationAcceleration }}
+</div>
+
+{% if pearsonCorrelation.r > 0 %}
+    <div>
+        <b>r</b> = {{ pearsonCorrelation.r }} > 0 korelacja dodatnia <br/>
+        gdy wartość X rośnie to Y też
     </div>
-
-    <div id="wartOczekiwana">
-        <li>Wartosc oczekiwana</li>
-        <img src="/img/srednia-wzor.png" alt="srednia-wzor">
-
-        average(enginepower) = {{ averageEnginepower }}
-        average(acceleration) = {{ averageAcceleration }}
+{% elseif pearsonCorrelation.r == 0 %}
+    <div>
+        <b>r</b> = {{ pearsonCorrelation.r }} = 0 brak korelacji <br/>
+        gdy X rośnie to Y czasem rośnie a czasem maleje
     </div>
-
-    <div id="mediana">
-        <li>Mediana</li>
-        Wartość cechy w szeregu uporządkowanym, powyżej i poniżej której znajduje się
-        jednakowa liczba obserwacji
-
-        median(enginepower) = {{ medianEnginepower }}
-        median(acceleration) = {{ medianAcceleration }}
+{% elseif pearsonCorrelation.r < 0 %}
+    <div>
+        <b>r</b> = {{ pearsonCorrelation.r }} < 0 korelacja ujemna <br/>
+        gdy X rośnie to Y maleje
     </div>
+{% endif %}
 
-    <div id="SD">
-        <li>Odchylenie standardowe</li>
+{#|r| = {{ pearsonCorrelation.rModulus }}#}
+{% if pearsonCorrelation.rModulus < 0.2 %}
+    <div><b>|r|</b> < 0.2 – brak związku liniowego</div>
+{% elseif pearsonCorrelation.rModulus > 0.2 and  pearsonCorrelation.rModulus < 0.4 %}
+    <div><b>|r|</b> (0.2 – 0.4) – słaba zależność</div>
+{% elseif pearsonCorrelation.rModulus > 0.4 and  pearsonCorrelation.rModulus < 0.7 %}
+    <div><b>|r|</b> (0.4 -0.7) – umiarkowana zależność</div>
+{% elseif pearsonCorrelation.rModulus > 0.7 and  pearsonCorrelation.rModulus < 0.9 %}
+    <div><b>|r|</b> (0.7 – 0.9) – dość silna zależność</div>
+{% elseif pearsonCorrelation.rModulus > 0.9 %}
+    <div><b>|r|</b> > 0.9 – bardzo silna zależność</div>
+{% endif %}
 
-        <img src="/img/odchylenieStandardowe-wzor.png" alt="odchylenieStandardowe-wzor">
-
-        SD(enginePower) = {{ standardDeviationEnginepower }}
-        SD(acceleration) = {{ standardDeviationAcceleration }}
-    </div>
-
-    <div id="pearson">
-        <li>współczynnika korelacji liniowej Pearsona</li>
-
-        <img src="/img/pearson-wzor.png" alt="pearson-wzor">
-
-        <p><b>r = {{ pearsonCorrelation.r }}</b></p>
-        {% if pearsonCorrelation.r > 0 %}
-            <p>Rodzaj korelacji: r > 0 korelacja dodatnia – gdy wartość X rośnie to Y też</p>
-        {% elseif pearsonCorrelation.r == 0 %}
-            <p>Rodzaj korelacji: r = 0 brak korelacji – gdy X rośnie to Y czasem rośnie a czasem maleje</p>
-        {% elseif pearsonCorrelation.r < 0 %}
-            <p>Rodzaj korelacji: r < 0 korelacja ujemna – gdy X rośnie to Y maleje</p>
-        {% endif %}
-
-
-        <p><b>|r| = {{ pearsonCorrelation.rModulus }}</b></p>
-        {% if pearsonCorrelation.rModulus < 0.2 %}
-            <p>Siła korelacji: |r| < 0.2 – brak związku liniowego</p>
-        {% elseif pearsonCorrelation.rModulus > 0.2 and  pearsonCorrelation.rModulus < 0.4 %}
-            <p>Siła korelacji: |r| (0.2 – 0.4) – słaba zależność</p>
-        {% elseif pearsonCorrelation.rModulus > 0.4 and  pearsonCorrelation.rModulus < 0.7 %}
-            <p>|r| (0.4 -0.7) – umiarkowana zależność</p>
-        {% elseif pearsonCorrelation.rModulus > 0.7 and  pearsonCorrelation.rModulus < 0.9 %}
-            <p>|r| (0.7 – 0.9) – dość silna zależność</p>
-        {% elseif pearsonCorrelation.rModulus > 0.9 %}
-            <p>|r| > 0.9 – bardzo silna zależność</p>
-        {% endif %}
-    </div>
-
-    <div id="regresja">
-        <li>Równanie prostej regresji</li>
-        Y = aX + b
-
-        <img src="/img/regresjaLiniowa-wzor.png" alt="regresjaLiniowa-wzor">
-
-        a = {{ linearRegression.a }}
-        b = {{ linearRegression.b }}
-
-        {{ linearRegression.equation }}
-    </div>
-
-    <div id="kwartyl">
-        <li>Pierwszy kwartyl (Q1), trzeci kwartyl (Q3) oraz rozstep miedzykwartylowy (IRQ)</li>
-        Q1(enginepower) = {{ quartile1Enginepower }}
-        Q3(enginepower) = {{ quartile3Enginepower }}
-        IRQ(enginepower) = {{ quartile3Enginepower - quartile1Enginepower }}
-
-
-        Q1(acceleration) = {{ quartile1Acceleration }}
-        Q3(acceleration) = {{ quartile3Acceleration }}
-        IRQ(acceleration) = {{ quartile3Acceleration - quartile1Acceleration }}
-    </div>
-
-    <div id="pktOddalone">
-        <li>Punkty oddalone</li>
-        Q1(enginepower) = {{ quartile1Enginepower }}
-        Q2(enginepower) = {{ quartile2Enginepower }} - median
-        Q3(enginepower) = {{ quartile3Enginepower }}
-
-        Q1(acceleration) = {{ quartile1Acceleration }}
-        Q2(acceleration) = {{ quartile2Acceleration }} - median
-        Q3(acceleration) = {{ quartile3Acceleration }}
-    </div>
-</ul>
+<div>
+    <b>Y = aX + b</b> <br/>
+    <b>a</b> = {{ linearRegression.a }}<br/>
+    <b>b</b> = {{ linearRegression.b }} {#{{ linearRegression.equation }}#}
+</div>
+<div>
+    <b>Q1</b>(enginepower) = {{ quartile1Enginepower }}<br/>
+    <b>Q2</b>(enginepower) = {{ quartile2Enginepower }}<br/>
+    <b>Q3</b>(enginepower) = {{ quartile3Enginepower }}<br/>
+    <b>IRQ</b>(enginepower) = {{ quartile3Enginepower - quartile1Enginepower }}
+</div>
+<div>
+    <b>Q1</b>(acceleration) = {{ quartile1Acceleration }}<br/>
+    <b>Q2</b>(acceleration) = {{ quartile2Acceleration }}<br/>
+    <b>Q3</b>(acceleration) = {{ quartile3Acceleration }}<br/>
+    <b>IRQ</b>(acceleration) = {{ quartile3Acceleration - quartile1Acceleration }}
+</div>

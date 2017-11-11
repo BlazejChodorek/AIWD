@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Car;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -15,7 +16,9 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('default/index.html.twig');
+        return $this->render('default/index.html.twig', array(
+            'norm' => $this->getNorm(),
+        ));
     }
 
     /**
@@ -69,7 +72,7 @@ class DefaultController extends Controller
             }
         }
         return $this->render('default/file.html.twig', array(
-            'data' => $data,
+            'data' => null,//$data,
         ));
     }
 
@@ -163,21 +166,50 @@ class DefaultController extends Controller
         $acceleration = $this->getAccelerations($this->getDoctrine()->getManager(), false);
 
         $data = array();
+        $data["validate"] = null;
+        $data["value"] = null;
         $data["unit"] = $formUnit == "KM" ? "s" : "KM";
 
         switch ($formUnit) {
             case "KM":
-                $linearRegression = $this->getLinearRegression($enginePower, $acceleration);
-                $data["value"] = $linearRegression["a"] * $formValue + $linearRegression["b"];
+                if ($this->checkTheRange($formValue, $this->getNorm()["enginePowerFrom"], $this->getNorm()["enginePowerTo"])) {
+                    $linearRegression = $this->getLinearRegression($enginePower, $acceleration);
+                    $data["value"] = $linearRegression["a"] * $formValue + $linearRegression["b"];
+                } else {
+                    $data["validate"] = "podaj wartość z przedziału dla mocy silnika";
+                }
                 break;
             case "s":
-                $linearRegression = $this->getLinearRegression($acceleration, $enginePower);
-                $data["value"] = $linearRegression["a"] * $formValue + $linearRegression["b"];
+                if ($this->checkTheRange($formValue, $this->getNorm()["accelerationFrom"], $this->getNorm()["accelerationTo"])) {
+                    $linearRegression = $this->getLinearRegression($acceleration, $enginePower);
+                    $data["value"] = $linearRegression["a"] * $formValue + $linearRegression["b"];
+                } else {
+                    $data["validate"] = "podaj wartość z przedziału dla przyspieszenia";
+                }
                 break;
         }
 
         return $this->render('default/calculate.html.twig', array(
             'data' => $data,
+        ));
+    }
+
+    /**
+     * @Route("/linearRegression")
+     */
+    public function linearRegressionAction(Request $request)
+    {
+
+        $enginePower = $this->getEnginesPower($this->getDoctrine()->getManager(), false);
+        $acceleration = $this->getAccelerations($this->getDoctrine()->getManager(), false);
+        $linearRegression = $this->getLinearRegression($enginePower, $acceleration);
+
+        return new JsonResponse(array(
+            "enginePower" => $enginePower,
+            "acceleration" => $acceleration,
+            'a' => $linearRegression["a"],
+            'b' => $linearRegression["b"],
+            'norm' => $this->getNorm(),
         ));
     }
 
@@ -293,7 +325,7 @@ class DefaultController extends Controller
 
     private function getNorm()
     {
-        return array("enginePowerFrom" => 70, "enginePowerTo" => 190, "accelerationFrom" => 8, "accelerationTo" => 15);
+        return array("enginePowerFrom" => 50, "enginePowerTo" => 220, "accelerationFrom" => 6, "accelerationTo" => 20);
     }
 
 

@@ -7,16 +7,34 @@ $(document).ready(function () {
     drawAxes(context, "black");
     setTitlesOfAxes(context, "moc silnika", "przysp")
 
-    drawLinearRegression(context, 0.2, 46.8, "black");
-
-    var enginesPower = [100, 150, 160, 170];
-    var accelerations = [40, 60, 10, 15];
-
-    drawPoints(context, enginesPower, accelerations);
-
+    drawLinearRegression(context);
 });
 
-function drawLinearRegression(context, a, b, color) {
+function drawLinearRegression(context) {
+    $.ajax({
+        url: "/linearRegression",
+        data: null,
+        type: "POST",
+        async: true,
+        ajaxContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        ajaxProcessData: true,
+        success: function (response) {
+            console.log(response);
+            console.log(response.norm.accelerationFrom);
+            console.log(response.norm.accelerationTo);
+            console.log(response.norm.enginePowerFrom);
+            console.log(response.norm.enginePowerTo);
+
+            linearRegression(context, response.a, response.b, "black");
+            drawPoints(context, response.enginePower, response.acceleration);
+
+        },
+        error: function (response) {
+        },
+    });
+}
+
+function linearRegression(context, a, b, color) {
     //Y = aX + b
     //a = -0.2
     //b = 46.8
@@ -52,9 +70,9 @@ function drawOnePoint(context, x, y) {
     context.beginPath();
 
     var size = 3;
-    var shift = 40;
-    var cx = x + shift;
-    var cy = y * 2 + shift;
+    var shift = 0;
+    var cx = x * 3.5 + shift;
+    var cy = y * 15 + shift;
     context.save();
     context.beginPath();
 

@@ -28,46 +28,6 @@
   }
 }
 
-#drugi {
-  display: none;
-}
-
-#trzeci {
-  display: none;
-  #minmax {
-    display: none;
-  }
-  #wartOczekiwana {
-    display: none;
-  }
-  #mediana {
-    display: none;
-  }
-  #SD {
-    display: none;
-  }
-  #pearson {
-    display: none;
-  }
-  #regresja {
-    display: none;
-  }
-  #kwartyl {
-    display: none;
-  }
-  #pktOddalone {
-    display: none;
-  }
-}
-
-#czwarty {
-  display: none;
-}
-
-#piaty {
-  display: none;
-}
-
 table, th, td {
   border: 8px solid #ffffff;
   border-collapse: collapse;
@@ -88,12 +48,9 @@ td {
 }
 
 td.invalid {
-  a {
-    text-decoration: none;
-    color: #000;
-    div {
-      border: 1px solid #ff0008;
-    }
+  div {
+    border: 1px solid #ff0008;
+    color: #ff0008;
   }
 }
 
@@ -115,12 +72,37 @@ tr:hover {
 
 div.myPanel {
   margin-left: 5px;
-  position: fixed;
   float: left;
   width: 250px;
   background-color: #ffffff;
-  font-size: small;
-  z-index: 55;
+
+  h2 {
+    padding: 10px;
+    background-color: #eaeaea;
+  }
+
+  form {
+    font-size: small;
+    .submitForm {
+      width: 100%;
+    }
+    .inputForm {
+      float: left;
+      text-align: center;
+    }
+    select {
+      float: right;
+    }
+  }
+  .norm {
+    background-color: #F5F5F5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .form {
+    background-color: #F5F5F5;
+  }
 
   a {
     text-decoration: none;
@@ -132,7 +114,7 @@ div.myPanel {
     padding-left: 15px;
     padding-right: 15px;
   }
-;
+
   div:hover {
     background-color: #F5F5F5;
     //box-shadow: 5px 5px 20px #b8b8b8;
@@ -298,14 +280,17 @@ div.element {
 }
 
 body {
-  background: #000000;
+  background: #ffffff;
   font: 18px/1.5 sans-serif;
 }
 
 .mainPage {
   overflow-y: auto;
-  width: 550px;
-  height: 550px;
+  //width: 550px;
+  height: 620px;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 h1, h2 {
@@ -343,13 +328,13 @@ code {
 
 #wrapper {
   background: #FFF;
-  margin: 1em auto;
+  //margin: 1em auto;
   max-width: 800px;
   width: 95%;
 }
 
 #container {
-  padding: 2em;
+  //float: right;
   min-height: 25em;
   #welcome, #status {
     margin-bottom: 2em;
@@ -391,7 +376,7 @@ code {
 @media (min-width: 768px) {
   #wrapper {
     width: 80%;
-    margin: 2em auto;
+    //margin: 2em auto;
   }
 
   #icon-book {

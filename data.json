@@ -161,6 +161,312 @@
       "model": "825SD/D",
       "enginePower": 118,
       "acceleration": 11.3
+    },
+    {
+      "brand": "Rover",
+      "model": "25 1.1 (60)",
+      "enginePower": 60,
+      "acceleration": 14.3
+    },
+    {
+      "brand": "Rover",
+      "model": "25 1.1 (75)",
+      "enginePower": 75,
+      "acceleration": 13.9
+    },
+    {
+      "brand": "Rover",
+      "model": "25 1.4 (83)",
+      "enginePower": 83,
+      "acceleration": 12.9
+    },
+    {
+      "brand": "Rover",
+      "model": "25 1.4(103)",
+      "enginePower": 103,
+      "acceleration": 11
+    },
+    {
+      "brand": "Rover",
+      "model": "25 1.6",
+      "enginePower": 109,
+      "acceleration": 10.1
+    },
+    {
+      "brand": "Rover",
+      "model": "25 1.8 (automat)",
+      "enginePower": 117,
+      "acceleration": 10.1
+    },
+    {
+      "brand": "Rover",
+      "model": "25 Vi",
+      "enginePower": 145,
+      "acceleration": 8.3
+    },
+    {
+      "brand": "Rover",
+      "model": "25 2.0 iDT (113)",
+      "enginePower": 113,
+      "acceleration": 10.2
+    },
+    {
+      "brand": "Rover",
+      "model": "25 2.0 iDT (101)",
+      "enginePower": 101,
+      "acceleration": 10.5
+    },
+    {
+      "brand": "Rover",
+      "model": "45 2.0",
+      "enginePower": 150,
+      "acceleration": 9.5
+    },
+    {
+      "brand": "Rover",
+      "model": "45 1.4",
+      "enginePower": 103,
+      "acceleration": 11.7
+    },
+    {
+      "brand": "Rover",
+      "model": "45 1.6",
+      "enginePower": 109,
+      "acceleration": 10.3
+    },
+    {
+      "brand": "Rover",
+      "model": "45 1.8",
+      "enginePower": 117,
+      "acceleration": 9.3
+    },
+    {
+      "brand": "Rover",
+      "model": "45 2.0",
+      "enginePower": 101,
+      "acceleration": 10.6
+    },
+    {
+      "brand": "Rover",
+      "model": "75 1.8",
+      "enginePower": 120,
+      "acceleration": 13.2
+    },
+    {
+      "brand": "Rover",
+      "model": "75 1.8 turbo",
+      "enginePower": 150,
+      "acceleration": 10.4
+    },
+    {
+      "brand": "Rover",
+      "model": "75 2.0 v6",
+      "enginePower": 150,
+      "acceleration": 11.6
+    },
+    {
+      "brand": "Rover",
+      "model": "75 2.5 v6",
+      "enginePower": 177,
+      "acceleration": 9.5
+    },
+    {
+      "brand": "Rover",
+      "model": "75 2.0 cdt",
+      "enginePower": 116,
+      "acceleration": 13.2
+    },
+    {
+      "brand": "Rover",
+      "model": "75 2.0 cdti",
+      "enginePower": 131,
+      "acceleration": 11.8
+    },
+    {
+      "brand": "Land Rover",
+      "model": "Defender 2.5 TD5",
+      "enginePower": 138,
+      "acceleration": 15.3
+    },
+    {
+      "brand": "Land Rover",
+      "model": "Defender 4.0 v8",
+      "enginePower": 184,
+      "acceleration": 11.7
+    },
+    {
+      "brand": "Land Rover",
+      "model": "Freelander 1.8",
+      "enginePower": 120,
+      "acceleration": 11.9
+    },
+    {
+      "brand": "Land Rover",
+      "model": "Freelander 2.0",
+      "enginePower": 97,
+      "acceleration": 15.8
+    },
+    {
+      "brand": "Range Rover",
+      "model": "4.0 SE",
+      "enginePower": 190,
+      "acceleration": 10.9
+    },
+    {
+      "brand": "Range Rover",
+      "model": "4.6 HSE",
+      "enginePower": 218,
+      "acceleration": 9.9
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk1 111 C/L",
+      "enginePower": 60,
+      "acceleration": 14.8
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk1 114 Si",
+      "enginePower": 75,
+      "acceleration": 11
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk1 114 GTa",
+      "enginePower": 90,
+      "acceleration": 9.8
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk1 114 GTi",
+      "enginePower": 103,
+      "acceleration": 8.8
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk1 114 D/LD/SLD/GLD",
+      "enginePower": 52,
+      "acceleration": 18.5
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk2 111 Si/SLi",
+      "enginePower": 60,
+      "acceleration": 14.8
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk2 114 SLi/GSi",
+      "enginePower": 75,
+      "acceleration": 10.9
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk2 114 GTa",
+      "enginePower": 75,
+      "acceleration": 10.9
+    },
+    {
+      "brand": "Rover",
+      "model": "100 Mk2 115D/LD/SLD",
+      "enginePower": 58,
+      "acceleration": 15.5
+    },
+    {
+      "brand": "Rover",
+      "model": "400 mk1 418 SD/GLD",
+      "enginePower": 67,
+      "acceleration": 13.5
+    },
+    {
+      "brand": "Rover",
+      "model": "400 mk1 418 SLD Turbo",
+      "enginePower": 88,
+      "acceleration": 11.8
+    },
+    {
+      "brand": "Rover",
+      "model": "400 mk1 420 GSi Turbo",
+      "enginePower": 200,
+      "acceleration": 8.5
+    },
+    {
+      "brand": "MG",
+      "model": "ZR 105",
+      "enginePower": 103,
+      "acceleration": 10
+    },
+    {
+      "brand": "MG",
+      "model": "ZR 120",
+      "enginePower": 117,
+      "acceleration": 8.8
+    },
+    {
+      "brand": "MG",
+      "model": "ZR 120 Stepspeed",
+      "enginePower": 117,
+      "acceleration": 9.7
+    },
+    {
+      "brand": "MG",
+      "model": "ZR 160",
+      "enginePower": 160,
+      "acceleration": 7.6
+    },
+    {
+      "brand": "MG",
+      "model": "ZR ZR iDT (101)",
+      "enginePower": 101,
+      "acceleration": 9.8
+    },
+    {
+      "brand": "MG",
+      "model": "ZR ZR iDT (113)",
+      "enginePower": 113,
+      "acceleration": 9.6
+    },
+    {
+      "brand": "MG",
+      "model": "ZS 120",
+      "enginePower": 116,
+      "acceleration": 9.9
+    },
+    {
+      "brand": "MG",
+      "model": "ZS 180",
+      "enginePower": 176,
+      "acceleration": 7.3
+    },
+    {
+      "brand": "MG",
+      "model": "ZS 2.0 iTD",
+      "enginePower": 112,
+      "acceleration": 9.8
+    },
+    {
+      "brand": "MG",
+      "model": "ZT 160",
+      "enginePower": 160,
+      "acceleration": 8.4
+    },
+    {
+      "brand": "MG",
+      "model": "ZT 180 sports",
+      "enginePower": 176,
+      "acceleration": 8
+    },
+    {
+      "brand": "MG",
+      "model": "ZT 190",
+      "enginePower": 191,
+      "acceleration": 7.4
+    },
+    {
+      "brand": "MG",
+      "model": "ZT 135 CDTi",
+      "enginePower": 116,
+      "acceleration": 11.8
     }
   ]
 }

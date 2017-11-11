@@ -3,15 +3,6 @@
 
 Liczba rekordów = <b>{{ cars|length }}</b>
 
-Norma dla mocy silnika: <b>{{ norm.enginePowerFrom }} - {{ norm.enginePowerTo }} KM</b>
-Norma dla przyspieszenia: <b>{{ norm.accelerationFrom }} - {{ norm.accelerationTo }} s</b>
-
-Wartości odbiegające od normy zaznaczono kolorem czerwonym i <b>zostaną zastąpione wartością średnią.</b>
-
-średnia moc silnika: <b>{{ averageEnginepower }} KM</b>
-średnie przyspieszenie: <b>{{ averageAcceleration }} s</b>
-
-
 <table style="width:100%">
     <tr>
         <th>№</th>
@@ -28,13 +19,13 @@ Wartości odbiegające od normy zaznaczono kolorem czerwonym i <b>zostaną zast�
             <td>{{ car.model }}</td>
 
             {% if car.enginePower < norm.enginePowerFrom or car.enginePower > norm.enginePowerTo %}
-                <td class="invalid"><a href=""><div>{{ car.enginePower }} {{ enginePowerUnit}}</div></a></td>
+                <td class="invalid"><div>{{ car.enginePower }} {{ enginePowerUnit}}</div></td>
             {% else %}
                 <td>{{ car.enginePower }} {{ enginePowerUnit}} </td>
             {% endif %}
 
             {% if car.acceleration < norm.accelerationFrom or car.acceleration > norm.accelerationTo %}
-                <td class="invalid"><a href=""><div>{{ car.acceleration }} {{ accelerationUnit}}</div></a></td>
+                <td class="invalid"><div>{{ car.acceleration }} {{ accelerationUnit}}</div></td>
             {% else %}
                 <td>{{ car.acceleration }} {{ accelerationUnit}}</td>
             {% endif %}

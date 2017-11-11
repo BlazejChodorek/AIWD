@@ -2,105 +2,33 @@
 
 {% block body %}
 
-    {#<div class="myPanel">#}
-    {#<ul>#}
-    {#<li><a href="#1">#}
-    {#<div>1. Pobranie danych z pliku</div>#}
-    {#</a></li>#}
-    {#<li><a href="#2">#}
-    {#<div>2. Wstepna obróbka danych</div>#}
-    {#</a></li>#}
-    {#<li><a href="#3">#}
-    {#<div>3. Analiza statystyczna</div>#}
-    {#</a></li>#}
-    {#<li><a href="#4">#}
-    {#<div>4. Estymacja</div>#}
-    {#</a></li>#}
-    {#<li><a href="#5">#}
-    {#<div>5. Wizualizacja danych</div>#}
-    {#</a></li>#}
-    {#</ul>#}
-    {#</div>#}
+
+    {% include 'default/panel.html.twig' %}
+
+
+    <div class="data-analysis"></div>
+
 
     <div class="mainPage" id="wrapper">
         <span class="logoutSpan"><span class="logout"> <a href="{{ path('homepage') }}"> <img src="/img/logout.png"
-                                                                                              alt="srednia-wzor"></a></span> </span>
+                                                                                              alt="logout"></a></span> </span>
 
         <div id="container">
             <div id="next">
 
-                <canvas id="c" width="650" height="375"; style="padding: 10px"></canvas>
+                <canvas id="c" width="650" height="375" ; style="padding: 10px"></canvas>
 
-                <div class="element" id="pierwszy">
-                    <h2 id="title1">1. Plik .json</h2>
-                    {#<span class="file-content" id="file-content">#}
-                    {#<input class="file-input" type="file" id="file-input"/>#}
-                    {#</span>#}
-
+                <div class="element">
                     <span class="file-content btn btn-default btn-file" id="file-content">
                         <button class="button2 file-input"> <span>Wybierz plik</span><input class="file-input"
                                                                                             type="file"
                                                                                             id="file-input"/></button>
-                        {#<button class="button" style="vertical-align:middle"><input class="file-input" type="file" id="file-input"/><span>wybierz plik </span></button>#}
                     </span>
 
                 </div>
 
-                <div class="element arrow-down js-scroll" id="drugi">
-                    <h2 id="title2">2. Wstepna obróbka danych</h2>
-
-                    {#<form>#}
-                    {#<input id="formValue" type="number" name="value">#}
-                    {#<select id="formUnit" name="unit">#}
-                    {#<option value="KM">KM</option>#}
-                    {#<option value="s">s</option>#}
-                    {#</select>#}
-                    {#<input id="submit" type="submit" value="Przelicz">#}
-                    {#<span class="calculate"></span>#}
-                    {#</form>#}
-
-                    <span class="btn btn-default btn-file data-processing" id="file-content">
-                        <button class="button2 generateTable"> <span>Obróbka danych</span><input class="generateTable"
-                                                                                                 type="file"/>
-                        </button>
-                    </span>
-
-                </div>
-
-                <div class="element" id="trzeci">
-                    <h2 id="title3">3. Analiza statystyczna</h2>
-                    <span class="btn btn-default btn-file data-analysis" id="file-content">
-                        <button class="button2 generateAnalysis"> <span>Generuj analizę statystyczną danych</span><input
-                                    class="generateAnalysis" type="file"/>
-                        </button>
-                    </span>
-                </div>
-
-                <div class="element" id="czwarty">
-                    <h2 id="title4">4. Estymacja</h2>
-
-                    <span class="btn btn-default btn-file data-estymacja" id="file-content">
-                <button class="button2 estymacja"> <span>Estymacja</span><input class="estymacja" type="file"/></button>
-                </span>
-
-                    <form id="estimationForm">
-                        <input id="formValue" type="number" name="value">
-                        <select id="formUnit" name="unit">
-                            <option value="KM">KM</option>
-                            <option value="s">s</option>
-                        </select>
-                        <input id="submit" type="submit" value="Przelicz">
-                        <span class="calculate"></span>
-                    </form>
-
-                </div>
-
-                <div class="element" id="piaty">
-                    <h2 id="title5">5. Wizualizacja danych</h2>
-                    <span class="btn btn-default btn-file data-estymacja" id="file-wizualizacja">
-                <button>WIZUALIZACJA<input class="wizualizacja" type="file"/></button>
-                </span>
-                </div>
+                <div class="data-processing"></div>
+                <div class="data-estymacja"></div>
 
             </div>
 

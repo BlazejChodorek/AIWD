@@ -1,5 +1,11 @@
-{% if data.unit == "KM" %}
-    moc silnia wynosi <b>{{ data.value }} {{ data.unit }}</b>
-{% elseif data.unit == "s" %}
-    przyspieszenie wynosi <b>{{ data.value }} {{ data.unit }}</b>
+{% if data.validate == null %}
+
+    {% if data.unit == "KM" %}
+        moc silnia wynosi <b>{{ data.value }} {{ data.unit }}</b>
+    {% elseif data.unit == "s" %}
+        przyspieszenie wynosi <b>{{ data.value }} {{ data.unit }}</b>
+    {% endif %}
+
+{% else %}
+    {{ data.validate }}
 {% endif %}

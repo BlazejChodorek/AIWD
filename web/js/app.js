@@ -1,3 +1,8 @@
+$(window).on('load', function() {
+
+});
+
+
 $(document).ready(function () {
 
     function readSingleFile(e) {
@@ -8,17 +13,18 @@ $(document).ready(function () {
         var reader = new FileReader();
         reader.onload = function (e) {
             contents = e.target.result;
+            document.getElementById('file-content').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            displayItemById("preloder-wczytywanie", 2000, 5000);
+            displayItemById("preloder-obrobka", 6000, 9000);
+            displayItemById("preloder-analiza", 10000, 13000);
+
             myAjax("/file", contents, '.file-content');
-
             myAjax("/data-processing", null, ".data-processing");
-
             myAjax("/data-processing", null, ".data-analysys");
-
             myAjax("/data-analysis", null, ".data-analysis");
-            myAjax("/estimation", 5, ".data-estymacja");
-
-            displayItemById('estimationForm', 7000);
-
+            myAjax("/estimation", 10, ".data-estymacja");
         };
 
         reader.readAsText(file);
@@ -28,17 +34,11 @@ $(document).ready(function () {
         .addEventListener('change', readSingleFile, false);
 
 
-
     $(document).on("click", ".blocked", function (event) {
         document.getElementById('form-popup').style.display = 'none';
         $('.mainPage').removeClass("blocked");
 
     });
-
-    $(document).on("click", ".generateAnalysis", function (event) {
-
-    });
-
 
     $(document).on("click", ".estymacjaZmien", function (event) {
 
@@ -52,31 +52,31 @@ $(document).ready(function () {
         var form = {};
         form.formValue = $('#formValueEstimation').val();
         form.formValue = parseFloat(form.formValue);
-        myAjax("/estimation", form.formValue, ".data-estymacja");
+        myAjaxEstimation("/estimation", form.formValue, ".data-estymacja");
         document.getElementById('form-popup').style.display = 'none';
         $('.mainPage').removeClass("blocked");
     });
 
-    $(document).on("mouseenter", ".logout", function (event) {
-
-        var img = $("img", this);
-        var old_src = img.attr("src").split(".");
-        var new_src = old_src[0] + "-hover." + old_src[1];
-        img.attr("src", new_src);
-    });
-
-    $(document).on("mouseleave", ".logout", function (event) {
-
-        var class_name = $(this).attr("class");
-        var img = $("img", this);
-        img.attr("src", "img/" + class_name + ".png");
-
-    });
-
-    $(document).on("click", ".logout", function (event) {
+    $(document).on("click", "#danePanel", function (event) {
 
         event.preventDefault();
-        popup("logout");
+        document.getElementById('regressionCanvas').style.display = 'none';
+        document.getElementById('data-processing').style.display = 'block';
+        document.getElementById('data-estymacja').style.display = 'none';
+    });
+    $(document).on("click", "#estymacjaPanel", function (event) {
+
+        event.preventDefault();
+        document.getElementById('regressionCanvas').style.display = 'none';
+        document.getElementById('data-processing').style.display = 'none';
+        document.getElementById('data-estymacja').style.display = 'block';
+    });
+    $(document).on("click", "#wizualizacjaPanel", function (event) {
+
+        event.preventDefault();
+        document.getElementById('regressionCanvas').style.display = 'block';
+        document.getElementById('data-processing').style.display = 'none';
+        document.getElementById('data-estymacja').style.display = 'none';
     });
 
     //formularz estymacja panel
@@ -104,9 +104,42 @@ $(document).ready(function () {
         });
 
     });
+
+
+    var c_canvas = document.getElementById("c");
+    var context = c_canvas.getContext("2d");
+
+    var linearRegression = new LinearRegression(context, "/linearRegression");
+    linearRegression.drawGrid("#d5d5d5");
+    linearRegression.drawAxes("#000000");
+    linearRegression.setTitlesOfAxes("moc silnika [KM]", "przyspieszenie [s]");
+    linearRegression.drawLinearRegression("#2aae1e", "#bb222c");
+
 });
 
 function myAjax(myUrl, contents, divClass) {
+    $.ajax({
+        url: myUrl,
+        data: {data: contents},
+        type: "POST",
+        async: true,
+        ajaxContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        ajaxProcessData: true,
+        success: function (response) {
+            $(divClass).html(response);
+            document.getElementById('estimationForm').style.display = 'block';
+            document.getElementById('myPanel').style.display = 'block';
+            document.getElementById('loading').style.display = 'none';
+        },
+        error: function (response) {
+            document.getElementById('form-popup').style.display = 'block';
+            $('.mainPage').addClass("blocked");
+            $('.form-popup').html('Niepoprawny format pliku');
+        },
+    });
+}
+
+function myAjaxEstimation(myUrl, contents, divClass) {
     $.ajax({
         url: myUrl,
         data: {data: contents},
@@ -146,8 +179,11 @@ function popup(action) {
     });
 }
 
-function displayItemById(id, time) {
+function displayItemById(id, time1, time2) {
     setTimeout(function () {
         document.getElementById(id).style.display = 'block';
-    }, time);
+    }, time1);
+    setTimeout(function () {
+        document.getElementById(id).style.display = 'none';
+    }, time2);
 }

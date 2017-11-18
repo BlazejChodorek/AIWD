@@ -117,6 +117,34 @@ class Car
         return $cars;
     }
 
+    public function getCarsByAccleration($em, $acceleration)
+    {
+        $cars = $em->getRepository('AppBundle:Car')
+            ->createQueryBuilder('p')
+            ->where('p.original = false')
+            ->andWhere('p.visible = true')
+            ->andWhere('p.acceleration = :acceleration')
+            ->setParameter('acceleration', $acceleration)
+            ->getQuery()
+            ->getResult();
+
+        return $cars;
+    }
+
+    public function getCarsByEnginePower($em, $enginePower)
+    {
+        $cars = $em->getRepository('AppBundle:Car')
+            ->createQueryBuilder('p')
+            ->where('p.original = false')
+            ->andWhere('p.visible = true')
+            ->andWhere('p.enginePower = :enginePower')
+            ->setParameter('enginePower', $enginePower)
+            ->getQuery()
+            ->getResult();
+
+        return $cars;
+    }
+
     public function deleteAllCars($em)
     {
         $cars = $this->getAllCars($em);

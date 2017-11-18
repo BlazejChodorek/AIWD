@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Helpers\StatisticsHelper;
 
 class DefaultController extends Controller
 {
@@ -17,7 +18,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         return $this->render('default/index.html.twig', array(
-            'norm' => $this->getNorm(),
+            'norm' => StatisticsHelper::getNorm(),
         ));
     }
 
@@ -29,7 +30,7 @@ class DefaultController extends Controller
         $data = $request->request->get('data', null);
         $cars = json_decode($data, true);
         $em = $this->getDoctrine()->getManager();
-        $this->deleteAllCars($em);
+        StatisticsHelper::deleteAllCars($em);
 
         foreach ($cars as $item) {
             foreach ($item as $key => $oneCar) {
@@ -39,36 +40,33 @@ class DefaultController extends Controller
             }
         }
 
-        $allEnginePower = $this->getEnginesPower($this->getDoctrine()->getManager(), true);
-        $allAcceleration = $this->getAccelerations($this->getDoctrine()->getManager(), true);
+        $allEnginePower = StatisticsHelper::getEnginesPower($this->getDoctrine()->getManager(), true);
+        $allAcceleration = StatisticsHelper::getAccelerations($this->getDoctrine()->getManager(), true);
 
         foreach ($cars as $key => $item) {
             foreach ($item as $key => $oneCar) {
 
                 $enginePower = $oneCar["enginePower"];
                 $acceleration = $oneCar["acceleration"];
-                $range = $this->getNorm();
+                $range = StatisticsHelper::getNorm();
                 $newEnginePower = null;
                 $newAcceleration = null;
 
-                if ($this->checkTheRange($enginePower, $range["enginePowerFrom"], $range["enginePowerTo"])) {
+                if (StatisticsHelper::checkTheRange($enginePower, $range["enginePowerFrom"], $range["enginePowerTo"])) {
                     $newEnginePower = $enginePower;
                 } else {
-                    $newEnginePower = $this->getAverage($allEnginePower);
+                    $newEnginePower = StatisticsHelper::getAverage($allEnginePower);
                 }
 
-                if ($this->checkTheRange($acceleration, $range["accelerationFrom"], $range["accelerationTo"])) {
+                if (StatisticsHelper::checkTheRange($acceleration, $range["accelerationFrom"], $range["accelerationTo"])) {
                     $newAcceleration = $acceleration;
                 } else {
-                    $newAcceleration = $this->getAverage($allAcceleration);
+                    $newAcceleration = StatisticsHelper::getAverage($allAcceleration);
                 }
-
 
                 $vehicle = new Car($item[$key]['brand'], $item[$key]['model'], $newEnginePower, $newAcceleration, false);
                 $em->persist($vehicle);
                 $em->flush();
-
-
             }
         }
         return $this->render('default/file.html.twig', array(
@@ -83,14 +81,14 @@ class DefaultController extends Controller
     {
         $car = new Car();
         $cars = $car->getOriginalCars($this->getDoctrine()->getManager());
-        $enginePower = $this->getEnginesPower($this->getDoctrine()->getManager(), false);
-        $acceleration = $this->getAccelerations($this->getDoctrine()->getManager(), false);
+        $enginePower = StatisticsHelper::getEnginesPower($this->getDoctrine()->getManager(), false);
+        $acceleration = StatisticsHelper::getAccelerations($this->getDoctrine()->getManager(), false);
 
         return $this->render('default/dataProcessing.html.twig', array(
             'cars' => $cars,
-            'norm' => $this->getNorm(),
-            'averageEnginepower' => $this->getAverage($enginePower),
-            'averageAcceleration' => $this->getAverage($acceleration),
+            'norm' => StatisticsHelper::getNorm(),
+            'averageEnginepower' => StatisticsHelper::getAverage($enginePower),
+            'averageAcceleration' => StatisticsHelper::getAverage($acceleration),
         ));
     }
 
@@ -99,8 +97,8 @@ class DefaultController extends Controller
      */
     public function dataAnalysisAction(Request $request)
     {
-        $enginePower = $this->getEnginesPower($this->getDoctrine()->getManager(), false);
-        $acceleration = $this->getAccelerations($this->getDoctrine()->getManager(), false);
+        $enginePower = StatisticsHelper::getEnginesPower($this->getDoctrine()->getManager(), false);
+        $acceleration = StatisticsHelper::getAccelerations($this->getDoctrine()->getManager(), false);
 
         return $this->render('default/dataAnalysis.html.twig', array(
             'minEnginepower' => min($enginePower),
@@ -108,39 +106,87 @@ class DefaultController extends Controller
             'minAcceleration' => min($acceleration),
             'maxAcceleration' => max($acceleration),
 
-            'medianEnginepower' => $this->getMedian($enginePower),
-            'medianAcceleration' => $this->getMedian($acceleration),
+            'medianEnginepower' => StatisticsHelper::getMedian($enginePower),
+            'medianAcceleration' => StatisticsHelper::getMedian($acceleration),
 
-            'averageEnginepower' => $this->getAverage($enginePower),
-            'averageAcceleration' => $this->getAverage($acceleration),
+            'averageEnginepower' => StatisticsHelper::getAverage($enginePower),
+            'averageAcceleration' => StatisticsHelper::getAverage($acceleration),
 
-            'standardDeviationEnginepower' => $this->getStandardDeviation($enginePower),
-            'standardDeviationAcceleration' => $this->getStandardDeviation($acceleration),
+            'standardDeviationEnginepower' => StatisticsHelper::getStandardDeviation($enginePower),
+            'standardDeviationAcceleration' => StatisticsHelper::getStandardDeviation($acceleration),
 
-            'quartile1Enginepower' => $this->getQuartile(1, $enginePower),
-            'quartile2Enginepower' => $this->getQuartile(2, $enginePower),
-            'quartile3Enginepower' => $this->getQuartile(3, $enginePower),
-            'quartile1Acceleration' => $this->getQuartile(1, $acceleration),
-            'quartile2Acceleration' => $this->getQuartile(2, $acceleration),
-            'quartile3Acceleration' => $this->getQuartile(3, $acceleration),
+            'quartile1Enginepower' => StatisticsHelper::getQuartile(1, $enginePower),
+            'quartile2Enginepower' => StatisticsHelper::getQuartile(2, $enginePower),
+            'quartile3Enginepower' => StatisticsHelper::getQuartile(3, $enginePower),
+            'quartile1Acceleration' => StatisticsHelper::getQuartile(1, $acceleration),
+            'quartile2Acceleration' => StatisticsHelper::getQuartile(2, $acceleration),
+            'quartile3Acceleration' => StatisticsHelper::getQuartile(3, $acceleration),
 
-            'linearRegression' => $this->getLinearRegression($enginePower, $acceleration),
+            'linearRegression' => StatisticsHelper::getLinearRegression($enginePower, $acceleration),
 
-            'pearsonCorrelation' => $this->getPearsonCorrelation($enginePower, $acceleration),
+            'pearsonCorrelation' => StatisticsHelper::getPearsonCorrelation($enginePower, $acceleration),
         ));
     }
+
+//    /**
+//     * @Route("/distant-points")
+//     */
+//    public function distantPointsAction(Request $request)
+//    {
+//        $enginePower = $this->getEnginesPower($this->getDoctrine()->getManager(), false);
+//        $acceleration = $this->getAccelerations($this->getDoctrine()->getManager(), false);
+//
+//        $enginePowerQ1 = $this->getQuartile(1, $enginePower);
+//        $enginePowerQ3 = $this->getQuartile(3, $enginePower);
+//        $enginePowerIRQ = $enginePowerQ3 - $enginePowerQ1;
+//
+//        $accelerationQ1 = $this->getQuartile(1, $acceleration);
+//        $accelerationQ3 = $this->getQuartile(3, $acceleration);
+//        $accelerationIRQ = $accelerationQ3 - $accelerationQ1;
+//
+//        $enginePowerDistantPoints = array();
+//        $accelerationDistantPoints = array();
+//
+//        //xi < Q1 − 1, 5(IRQ)   ||   xi > Q3 + 1, 5(IRQ)
+//        foreach ($enginePower as $x) {
+//            if (($x < $enginePowerQ1 - (1.5 * $enginePowerIRQ)) || ($x > $enginePowerQ3 + (1.5 * $enginePowerIRQ))) {
+//                $enginePowerDistantPoints[] = $x;
+//            }
+//        }
+
+//        foreach ($acceleration as $y) {
+//            if (($y < $accelerationQ1 - (1.5 * $accelerationIRQ)) || ($y > $accelerationQ3 + (1.5 * $accelerationIRQ))) {
+//                $accelerationDistantPoints[] = $y;
+//            }
+//        }
+//
+//        $cars = array();
+//
+//        foreach ($enginePowerDistantPoints as $item) {
+//            $cars[] = $this->getCarsByEnginePower($this->getDoctrine()->getManager(), $item);
+//        }
+//
+//        foreach ($accelerationDistantPoints as $item) {
+//            $cars[] = $this->getCarsByAccleration($this->getDoctrine()->getManager(), $item);
+//        }
+//
+//
+//        return $this->render('default/dataAnalysis.html.twig', array(
+//            'cars' => $cars,
+//        ));
+//    }
 
     /**
      * @Route("/estimation")
      */
     public function estimationAction(Request $request)
     {
-        $quantity = floatval($request->request->get('data', 5));
+        $quantity = floatval($request->request->get('data', 15));
 
-        $enginePower = $this->getEnginesPower($this->getDoctrine()->getManager(), false);
-        $acceleration = $this->getAccelerations($this->getDoctrine()->getManager(), false);
-        $linearRegression = $this->getLinearRegression($enginePower, $acceleration);
-        $norm = $this->getNorm();
+        $enginePower = StatisticsHelper::getEnginesPower($this->getDoctrine()->getManager(), false);
+        $acceleration = StatisticsHelper::getAccelerations($this->getDoctrine()->getManager(), false);
+        $linearRegression = StatisticsHelper::getLinearRegression($enginePower, $acceleration);
+        $norm = StatisticsHelper::getNorm();
 
         $newEnginePower = array();
         for ($i = 0; $i < $quantity; $i++) {
@@ -151,7 +197,7 @@ class DefaultController extends Controller
             'newEnginePower' => $newEnginePower,
             'a' => $linearRegression["a"],
             'b' => $linearRegression["b"],
-            'norm' => $this->getNorm(),
+            'norm' => StatisticsHelper::getNorm(),
         ));
     }
 
@@ -162,8 +208,8 @@ class DefaultController extends Controller
     {
         $formValue = floatval($request->request->get('formValue', null));
         $formUnit = $request->request->get('formUnit', null);
-        $enginePower = $this->getEnginesPower($this->getDoctrine()->getManager(), false);
-        $acceleration = $this->getAccelerations($this->getDoctrine()->getManager(), false);
+        $enginePower = StatisticsHelper::getEnginesPower($this->getDoctrine()->getManager(), false);
+        $acceleration = StatisticsHelper::getAccelerations($this->getDoctrine()->getManager(), false);
 
         $data = array();
         $data["validate"] = null;
@@ -172,16 +218,16 @@ class DefaultController extends Controller
 
         switch ($formUnit) {
             case "KM":
-                if ($this->checkTheRange($formValue, $this->getNorm()["enginePowerFrom"], $this->getNorm()["enginePowerTo"])) {
-                    $linearRegression = $this->getLinearRegression($enginePower, $acceleration);
+                if (StatisticsHelper::checkTheRange($formValue, StatisticsHelper::getNorm()["enginePowerFrom"], StatisticsHelper::getNorm()["enginePowerTo"])) {
+                    $linearRegression = StatisticsHelper::getLinearRegression($enginePower, $acceleration);
                     $data["value"] = $linearRegression["a"] * $formValue + $linearRegression["b"];
                 } else {
                     $data["validate"] = "podaj wartość z przedziału dla mocy silnika";
                 }
                 break;
             case "s":
-                if ($this->checkTheRange($formValue, $this->getNorm()["accelerationFrom"], $this->getNorm()["accelerationTo"])) {
-                    $linearRegression = $this->getLinearRegression($acceleration, $enginePower);
+                if (StatisticsHelper::checkTheRange($formValue, StatisticsHelper::getNorm()["accelerationFrom"], StatisticsHelper::getNorm()["accelerationTo"])) {
+                    $linearRegression = StatisticsHelper::getLinearRegression($acceleration, $enginePower);
                     $data["value"] = $linearRegression["a"] * $formValue + $linearRegression["b"];
                 } else {
                     $data["validate"] = "podaj wartość z przedziału dla przyspieszenia";
@@ -200,139 +246,25 @@ class DefaultController extends Controller
     public function linearRegressionAction(Request $request)
     {
 
-        $enginePower = $this->getEnginesPower($this->getDoctrine()->getManager(), false);
-        $acceleration = $this->getAccelerations($this->getDoctrine()->getManager(), false);
-        $linearRegression = $this->getLinearRegression($enginePower, $acceleration);
+        $enginePower = StatisticsHelper::getEnginesPower($this->getDoctrine()->getManager(), false);
+        $acceleration = StatisticsHelper::getAccelerations($this->getDoctrine()->getManager(), false);
+        $linearRegression = StatisticsHelper::getLinearRegression($enginePower, $acceleration);
+
 
         return new JsonResponse(array(
             "enginePower" => $enginePower,
             "acceleration" => $acceleration,
             'a' => $linearRegression["a"],
             'b' => $linearRegression["b"],
-            'norm' => $this->getNorm(),
+            'norm' => StatisticsHelper::getNorm(),
+            'enginePowerQ1' => StatisticsHelper::getQuartile(1, $enginePower),
+            'accelerationQ1' => StatisticsHelper::getQuartile(1, $acceleration),
+            'enginePowerQ3' => StatisticsHelper::getQuartile(3, $enginePower),
+            'accelerationQ3' => StatisticsHelper::getQuartile(3, $acceleration),
         ));
-    }
-
-    private function getAccelerations($em, $original)
-    {
-        $car = new Car();
-        $cars = $original ? $car->getOriginalCars($em) : $car->getProcessedCars($em);
-
-        $acceleration = array();
-
-        foreach ($cars as $car) {
-            $acceleration[] = $car->getAcceleration();
-        }
-        return $acceleration;
-    }
-
-    private function getEnginesPower($em, $original)
-    {
-        $car = new Car();
-        $cars = $original ? $car->getOriginalCars($em) : $car->getProcessedCars($em);
-
-        $enginePower = array();
-
-        foreach ($cars as $car) {
-            $enginePower[] = $car->getEnginepower();
-        }
-        return $enginePower;
-    }
-
-    private function getMedian($array)
-    {
-        $quantity = count($array);
-        $median = null;
-        sort($array);
-
-        if ($quantity % 2 == 0) {
-            $ma = ($quantity - 1) / 2;
-            $median = ($array[$ma] + $array[$ma + 1]) / 2;
-        } else {
-            $median = $array[($quantity - 1) / 2];
-        }
-        return $median;
-    }
-
-    private function deleteAllCars($em)
-    {
-        $car = new Car();
-        $car->deleteAllCars($em);
-    }
-
-    private function getAverage($array)
-    {
-        return round(array_sum($array) / count($array), 3);
-    }
-
-    private function getStandardDeviation($array)
-    {
-        $tmpArr = array();
-
-        foreach ($array as $item) {
-            $tmpArr[] = ($item - $this->getAverage($array)) * ($item - $this->getAverage($array));
-        }
-        $standardDeviation = round(sqrt(array_sum($tmpArr) / (count($array) - 1)), 3);
-
-        return $standardDeviation;
-    }
-
-    private function getPearsonCorrelation($arrayA, $arrayB)
-    {
-        $r = null;
-        $arrXY = array();
-
-        foreach ($arrayA as $x) {
-            foreach ($arrayB as $y) {
-                $arrXY[] = $x * $y;
-            }
-        }
-        $r = ((1 / count($arrayA) * array_sum($arrXY)) - ($this->getAverage($arrayA) * $this->getAverage($arrayB))) / ($this->getStandardDeviation($arrayA) * $this->getStandardDeviation($arrayB));
-
-        return array("r" => round($r, 3), "rModulus" => round(abs($r), 3));
-    }
-
-    private function getQuartile($num, $array)
-    {
-        sort($array);
-        $index = round((count($array) + 1) * $num / 4) - 1;
-
-        return $array[$index];
-    }
-
-    private function getLinearRegression($arrayA, $arrayB)
-    {
-        $n = count($arrayA);
-        $x_sum = array_sum($arrayA);
-        $y_sum = array_sum($arrayB);
-
-        $xx_sum = 0;
-        $xy_sum = 0;
-
-        for ($i = 0; $i < $n; $i++) {
-            $xy_sum += ($arrayA[$i] * $arrayB[$i]);
-            $xx_sum += ($arrayA[$i] * $arrayA[$i]);
-        }
-
-        $a = (($n * $xy_sum) - ($x_sum * $y_sum)) / (($n * $xx_sum) - ($x_sum * $x_sum));
-        $b = ($y_sum - ($a * $x_sum)) / $n;
-
-        $a = round($a, 3);
-        $b = round($b, 3);
-
-        return array("a" => $a, "b" => $b, "equation" => "Y = " . $a . " * X + " . $b);
-    }
-
-    private function getNorm()
-    {
-        return array("enginePowerFrom" => 50, "enginePowerTo" => 220, "accelerationFrom" => 6, "accelerationTo" => 20);
-    }
-
-
-    private function checkTheRange($data, $from, $to)
-    {
-        return (($data == $from || $data == $to) || ($data > $from && $data < $to));
     }
 
 
 }
+
+

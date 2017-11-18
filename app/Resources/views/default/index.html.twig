@@ -4,19 +4,24 @@
 
 
     {% include 'default/panel.html.twig' %}
-
-
     <div class="data-analysis"></div>
 
-
     <div class="mainPage" id="wrapper">
-        <span class="logoutSpan"><span class="logout"> <a href="{{ path('homepage') }}"> <img src="/img/logout.png"
-                                                                                              alt="logout"></a></span> </span>
-
         <div id="container">
             <div id="next">
 
-                <canvas id="c" width="650" height="375" ; style="padding: 10px"></canvas>
+                <div id="loading">
+                    <img src="/img/loading.gif">
+                    <div id="preloder-wczytywanie">
+                        <p>Wczytywanie danych z pliku...</p>
+                    </div>
+                    <div id="preloder-obrobka">
+                        <p>Obróbka danych...</p>
+                    </div>
+                    <div id="preloder-analiza">
+                        <p>Generowanie analizy statystycznej...</p>
+                    </div>
+                </div>
 
                 <div class="element">
                     <span class="file-content btn btn-default btn-file" id="file-content">
@@ -24,14 +29,17 @@
                                                                                             type="file"
                                                                                             id="file-input"/></button>
                     </span>
-
                 </div>
 
-                <div class="data-processing"></div>
-                <div class="data-estymacja"></div>
+                <div id="regressionCanvas">
+                    <h1>Wizualizacja danych</h1>
+                    <h3>Prosta regresji</h3>
+                    <canvas id="c" class="chart" width="750" height="360" ;></canvas>
+                </div>
+                <div class="data-processing" id="data-processing"></div>
+                <div class="data-estymacja" id="data-estymacja"></div>
 
             </div>
-
         </div>
     </div>
 

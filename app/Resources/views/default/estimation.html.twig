@@ -1,8 +1,11 @@
 {% set enginePowerUnit = 'KM' %}
 {% set accelerationUnit = 's' %}
-W tabeli poniżej przedstawiono wygenerowaną losowo moc silnika.
-Za pomocą równania regresji liniowej została estymowana wartość przyspieszenia.
-Liczba wygenerowanych rekordów = <b>{{ newEnginePower|length }}</b> <button class="estymacjaZmien">zmień</button>
+<h1>Estymacja</h1>
+<p>W tabeli poniżej przedstawiono wygenerowaną losowo moc silnika.</p>
+<p>Za pomocą równania regresji liniowej została estymowana wartość przyspieszenia.</p>
+<p>Liczba wygenerowanych rekordów = <b>{{ newEnginePower|length }}</b>
+    <button class="estymacjaZmien">zmień</button>
+</p>
 
 <table style="width:100%">
     <tr>

@@ -467,6 +467,138 @@
       "model": "ZT 135 CDTi",
       "enginePower": 116,
       "acceleration": 11.8
+    },
+    {
+      "brand": "MG",
+      "model": "ZT 135 CDTi Sports",
+      "enginePower": 131,
+      "acceleration": 10.9
+    },
+    {
+      "brand": "MG",
+      "model": "ZT 260",
+      "enginePower": -260,
+      "acceleration": 6.5
+    },
+    {
+      "brand": "MG",
+      "model": "F 1.6i",
+      "enginePower": 112,
+      "acceleration": 9.9
+    },
+    {
+      "brand": "MG",
+      "model": "F Stepspeed",
+      "enginePower": 120,
+      "acceleration": 10
+    },
+    {
+      "brand": "MG",
+      "model": "F 1.8i",
+      "enginePower": 120,
+      "acceleration": 9.2
+    },
+    {
+      "brand": "MG",
+      "model": "F VVC",
+      "enginePower": 145,
+      "acceleration": 7.9
+    },
+    {
+      "brand": "MG",
+      "model": "F 160SE",
+      "enginePower": 160,
+      "acceleration": 7.6
+    },
+    {
+      "brand": "MG",
+      "model": "TF 115",
+      "enginePower": 116,
+      "acceleration": 9.8
+    },
+    {
+      "brand": "MG",
+      "model": "120 Stepspeed",
+      "enginePower": 120,
+      "acceleration": 10.4
+    },
+    {
+      "brand": "MG",
+      "model": "TF 161",
+      "enginePower": 165,
+      "acceleration": 7.2
+    },
+    {
+      "brand": "MG",
+      "model": "TF 135",
+      "enginePower": 136,
+      "acceleration": 8.8
+    },
+    {
+      "brand": "MG",
+      "model": "TF 160",
+      "enginePower": 160,
+      "acceleration": 7.6
+    },
+    {
+      "brand": "MG",
+      "model": "XPower SV",
+      "enginePower": 10500,
+      "acceleration": 4.3
+    },
+    {
+      "brand": "MG",
+      "model": "XPower SV-R",
+      "enginePower": "qwerty",
+      "acceleration": 5.1
+    },
+    {
+      "brand": "MG",
+      "model": "Metro Turbo",
+      "enginePower": 95,
+      "acceleration": 9.5
+    },
+    {
+      "brand": "MG",
+      "model": "Metro GTa",
+      "enginePower": 74,
+      "acceleration": 11.9
+    },
+    {
+      "brand": "MG",
+      "model": "Metro 1.4 SL",
+      "enginePower": 76,
+      "acceleration": 12.1
+    },
+    {
+      "brand": "MG",
+      "model": "Metro GTi 16v",
+      "enginePower": 96,
+      "acceleration": 9.9
+    },
+    {
+      "brand": "MG",
+      "model": "Metro 1.1i",
+      "enginePower": 61,
+      "acceleration": 13.5
+    },
+    {
+      "brand": "MG",
+      "model": "Metro Diesel",
+      "enginePower": 53,
+      "acceleration": 15.9
+    },
+    {
+      "brand": "MG",
+      "model": "Maestro 2.0 EFi",
+      "enginePower": 117,
+      "acceleration": 8.6
+    },
+    {
+      "brand": "MG",
+      "model": "Maestro Turbo",
+      "enginePower": 152,
+      "acceleration": 6.8
     }
   ]
 }

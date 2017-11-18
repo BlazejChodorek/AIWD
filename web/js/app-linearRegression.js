@@ -1,136 +1,183 @@
-$(document).ready(function () {
+function LinearRegression(_context, _url) {
+    this.context = _context;
+    this.url = _url;
+    this.xAxisTo = 750;
+    this.yAxisTo = 360;
+    this.gridSize = 15;
+    this.shift = 45;
+    this.pointSize = 2;
+    this.numFontStyle = "bold 8px sans-serif";
+    this.titlesOfAxesFontStyle = "bold 12px sans-serif";
+    this.drawGrid = function (color) {
 
-    var c_canvas = document.getElementById("c");
-    var context = c_canvas.getContext("2d");
+        //  linie pionowe
+        for (var x = 0.5; x < this.xAxisTo; x += this.gridSize) {
+            this.context.moveTo(x, 0);
+            this.context.lineTo(x, this.yAxisTo);
+        }
+        //  linie poziome
+        for (var y = 0.5; y < this.yAxisTo; y += this.gridSize) {
+            this.context.moveTo(0, y);
+            this.context.lineTo(this.xAxisTo, y);
+        }
+        this.context.strokeStyle = color;
+        this.context.stroke();
+    };
+    this.drawAxes = function (color) {
+        this.context.beginPath();
+        //oś OX
+        this.context.moveTo(0, this.shift);
+        this.context.lineTo(this.xAxisTo, this.shift);
+        //strzalka w prawo
+        this.context.moveTo(this.xAxisTo - 5, 40);
+        this.context.lineTo(this.xAxisTo, this.shift);
+        this.context.lineTo(this.xAxisTo - 5, 50);
 
-    drawGrid(context, "#dbdbdb");
-    drawAxes(context, "black");
-    setTitlesOfAxes(context, "moc silnika", "przysp")
+        //podziałka na OX
+        for (var x = 60; x < this.xAxisTo; x += this.gridSize) {
+            this.context.moveTo(x, 40);
+            this.context.lineTo(x, 50);
+        }
 
-    drawLinearRegression(context);
-});
+        //num OX
+        this.context.font = this.numFontStyle;
+        var num = 10;
+        for (var x = 70; x < this.xAxisTo; x += this.gridSize * 2) {
+            this.context.fillText(num, x, 38);
+            if (num == 230) break;
+            num += 10;
+        }
 
-function drawLinearRegression(context) {
-    $.ajax({
-        url: "/linearRegression",
-        data: null,
-        type: "POST",
-        async: true,
-        ajaxContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        ajaxProcessData: true,
-        success: function (response) {
-            console.log(response);
-            console.log(response.norm.accelerationFrom);
-            console.log(response.norm.accelerationTo);
-            console.log(response.norm.enginePowerFrom);
-            console.log(response.norm.enginePowerTo);
+        //num OY
+        num = 1;
+        for (var y = 64; y < this.xAxisTo; y += this.gridSize) {
+            this.context.fillText(num, 25, y);
+            if (num == 20) break;
+            num++;
+        }
 
-            linearRegression(context, response.a, response.b, "black");
-            drawPoints(context, response.enginePower, response.acceleration);
+        //oś OY
+        this.context.moveTo(this.shift, 0);
+        this.context.lineTo(this.shift, this.yAxisTo);
+        //strzalka w dol
+        this.context.moveTo(this.shift, this.yAxisTo);
+        this.context.lineTo(40, this.yAxisTo - 5);
+        this.context.moveTo(this.shift, this.yAxisTo);
+        this.context.lineTo(50, this.yAxisTo - 5);
 
-        },
-        error: function (response) {
-        },
-    });
-}
+        //podziałka na OY
+        for (var y = 60; y < this.yAxisTo; y += this.gridSize) {
+            this.context.moveTo(40, y);
+            this.context.lineTo(50, y);
+        }
 
-function linearRegression(context, a, b, color) {
-    //Y = aX + b
-    //a = -0.2
-    //b = 46.8
+        this.context.fillText("(0, 0)", 25, 40);
 
-    var x1 = 40;
-    var x2 = 650;
-    var y1 = a * x1 + b;
-    var y2 = a * x2 + b;
+        this.context.strokeStyle = color;
+        this.context.stroke();
+    };
+    this.setTitlesOfAxes = function (xTitle, yTitle) {
 
-    context.beginPath();
+        this.context.beginPath();
+        this.context.font = this.titlesOfAxesFontStyle;
+        this.context.fillText(xTitle, (this.xAxisTo - this.shift) / 2, this.shift / 2);
 
-    if (y1 > 0 && y2 > 0) {
-        context.moveTo(x1, y1);
-        context.lineTo(x2, y2);
-    } else {
-        console.log("drawLinearRegression error");
-        context.moveTo(x1, y1);
-        context.lineTo(x2, y2);
-    }
+        var metric = this.context.measureText(yTitle);
+        this.context.save();
 
-    context.strokeStyle = color;
-    context.stroke();
-}
+        var tx = 35 + (metric.width / 2);
+        var ty = 80 + 5;
+        this.context.translate(tx, ty);
+        this.context.rotate(Math.PI / -2);
+        this.context.translate(-tx, -ty)
+        this.context.fillText(yTitle, 15, 15);
+        this.context.restore();
 
-function drawPoints(context, enginesPower, accelerations) {
+        this.context.strokeStyle = "#000000";
+        this.context.stroke();
+    };
+    this.drawLinearRegression = function (lineColor, pointsColor) {
+        var context = this.context;
+        var shift = this.shift;
+        var gridSize = this.gridSize;
+        var pointSize = this.pointSize;
 
-    for (var i = 0; i < enginesPower.length; i++) {
-        drawOnePoint(context, enginesPower[i], accelerations[i]);
-    }
-}
+        $.ajax({
+            url: this.url,
+            data: null,
+            type: "POST",
+            async: true,
+            ajaxContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            ajaxProcessData: true,
+            success: function (response) {
 
-function drawOnePoint(context, x, y) {
-    context.beginPath();
+                drawPoints(response.enginePower, response.acceleration,
+                    response.enginePowerQ1, response.enginePowerQ3,
+                    response.accelerationQ1, response.accelerationQ3);
+                drawlinearReg(response.a, response.b, response.norm.enginePowerFrom, response.norm.enginePowerTo);
+            },
+            error: function (response) {
+            },
+        });
 
-    var size = 3;
-    var shift = 0;
-    var cx = x * 3.5 + shift;
-    var cy = y * 15 + shift;
-    context.save();
-    context.beginPath();
+        function drawlinearReg(a, b, from, to) {
+            // Y = aX + b
 
-    context.translate(cx - size, cy - size);
-    context.scale(size, size);
-    context.arc(1, 1, 1, 0, 2 * Math.PI, false);
+            var x1 = from;
+            var x2 = to;
+            var y1 = a * x1 + b;
+            var y2 = a * x2 + b;
 
-    context.strokeStyle = "#000000";
-    context.stroke();
-    context.restore();
-}
+            x1 = x1 * 3 + shift;
+            x2 = x2 * 3 + shift;
+            y1 = y1 * gridSize + shift;
+            y2 = y2 * gridSize + shift;
 
-function drawGrid(context, color) {
-    //  linie pionowe
-    for (var x = 0.5; x < 650; x += 10) {
-        context.moveTo(x, 0);
-        context.lineTo(x, 375);
-    }
-    //  linie poziome
-    for (var y = 0.5; y < 375; y += 10) {
-        context.moveTo(0, y);
-        context.lineTo(650, y);
-    }
+            context.beginPath();
 
-    context.strokeStyle = color;
-    context.stroke();
-}
+            context.moveTo(x1, y1);
+            context.lineTo(x2, y2);
 
-function drawAxes(context, color) {
-    context.beginPath();
-    //OX
-    context.moveTo(0, 40);
-    context.lineTo(650, 40);
-    //strzalka w prawo
-    context.moveTo(645, 35);
-    context.lineTo(650, 40);
-    context.lineTo(645, 45);
+            context.strokeStyle = lineColor;
+            context.stroke();
+        }
 
-    //OY
-    context.moveTo(40, 0);
-    context.lineTo(40, 375);
-    //strzalka w dol
-    context.moveTo(45, 370);
-    context.lineTo(40, 375);
-    context.lineTo(35, 370);
+        function drawPoints(enginesPower, accelerations, enginePowerQ1, enginePowerQ3, accelerationQ1, accelerationQ3) {
 
-    context.font = "bold 12px sans-serif";
-    context.fillText("(0, 0)", 5, 30);
+            var enginePowerIRQ = enginePowerQ3 - enginePowerQ1;
+            var accelerationIRQ = accelerationQ3 - accelerationQ1;
 
-    context.strokeStyle = color;
-    context.stroke();
-}
+            for (var i = 0; i < enginesPower.length; i++) {
+                drawOnePoint(enginesPower[i], accelerations[i]);
+            }
 
-function setTitlesOfAxes(context, xTitle, yTitle) {
-    context.beginPath();
-    context.font = "bold 12px sans-serif";
-    context.fillText(xTitle, 300, 30);
-    context.fillText(yTitle, 0, 165);
-    context.strokeStyle = "#000000";
-    context.stroke();
+            function drawOnePoint(x, y) {
+
+                context.beginPath();
+
+                var cx = x * 3 + shift;
+                var cy = y * gridSize + shift;
+                context.save();
+                context.beginPath();
+
+                context.translate(cx - pointSize, cy - pointSize);
+                context.scale(pointSize, pointSize);
+                context.arc(1, 1, 1, 0, 2 * Math.PI, false);
+
+                //Identyfikacja punktów oddalonych
+                //xi < Q1 − 1, 5(IRQ)   ||   xi > Q3 + 1, 5(IRQ)
+                if ((x < enginePowerQ1 - (1.5 * enginePowerIRQ)) || (x > enginePowerQ3 + (1.5 * enginePowerIRQ))) {
+                    context.strokeStyle = "#272dbb";
+                } else if ((y < accelerationQ1 - (1.5 * accelerationIRQ)) || (y > accelerationQ3 + (1.5 * accelerationIRQ))) {
+                    context.strokeStyle = "#bbb200";
+                } else {
+                    context.strokeStyle = pointsColor;
+                }
+
+                context.stroke();
+                context.restore();
+            }
+        }
+    };
+
 }

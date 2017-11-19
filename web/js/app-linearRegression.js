@@ -167,9 +167,9 @@ function LinearRegression(_context, _url) {
                 //Identyfikacja punktów oddalonych
                 //xi < Q1 − 1, 5(IRQ)   ||   xi > Q3 + 1, 5(IRQ)
                 if ((x < enginePowerQ1 - (1.5 * enginePowerIRQ)) || (x > enginePowerQ3 + (1.5 * enginePowerIRQ))) {
-                    context.strokeStyle = "#272dbb";
-                } else if ((y < accelerationQ1 - (1.5 * accelerationIRQ)) || (y > accelerationQ3 + (1.5 * accelerationIRQ))) {
-                    context.strokeStyle = "#bbb200";
+                    if ((y < accelerationQ1 - (1.5 * accelerationIRQ)) || (y > accelerationQ3 + (1.5 * accelerationIRQ))) {
+                        context.strokeStyle = "#272dbb";
+                    }
                 } else {
                     context.strokeStyle = pointsColor;
                 }

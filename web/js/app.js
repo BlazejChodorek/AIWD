@@ -25,6 +25,7 @@ $(document).ready(function () {
             myAjax("/data-processing", null, ".data-analysys");
             myAjax("/data-analysis", null, ".data-analysis");
             myAjax("/estimation", 10, ".data-estymacja");
+            myAjax("/distant-points", null, ".distant-points");
         };
 
         reader.readAsText(file);

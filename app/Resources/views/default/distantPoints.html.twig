@@ -1,0 +1,19 @@
+{% set enginePowerUnit = 'KM' %}{% set accelerationUnit = 's' %}
+<table style="width:100%">
+    <tr>
+        <th>№</th>
+        <th>brand</th>
+        <th>model</th>
+        <th>engine power</th>
+        <th>acceleration</th>
+    </tr>
+    {% for car in cars %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ car.brand }}</td>
+            <td>{{ car.model }}</td>
+            <td>{{ car.enginePower }} {{ enginePowerUnit }} </td>
+            <td>{{ car.acceleration }} {{ accelerationUnit }}</td>
+        </tr>
+    {% endfor %}
+</table>

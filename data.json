@@ -345,8 +345,8 @@
     {
       "brand": "Rover",
       "model": "100 Mk1 114 D/LD/SLD/GLD",
-      "enginePower": 52,
-      "acceleration": 18.5
+      "enginePower": 24,
+      "acceleration": 5
     },
     {
       "brand": "Rover",
@@ -591,8 +591,8 @@
     {
       "brand": "MG",
       "model": "Maestro 2.0 EFi",
-      "enginePower": 117,
-      "acceleration": 8.6
+      "enginePower": 226,
+      "acceleration": 15
     },
     {
       "brand": "MG",

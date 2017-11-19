@@ -8,35 +8,10 @@
 
 namespace AppBundle\Helpers;
 
-use AppBundle\Entity\Car;
 
 class StatisticsHelper
 {
-    static function getAccelerations($em, $original = false)
-    {
-        $car = new Car();
-        $cars = $original ? $car->getOriginalCars($em) : $car->getProcessedCars($em);
 
-        $acceleration = array();
-
-        foreach ($cars as $car) {
-            $acceleration[] = $car->getAcceleration();
-        }
-        return $acceleration;
-    }
-
-    static function getEnginesPower($em, $original = false)
-    {
-        $car = new Car();
-        $cars = $original ? $car->getOriginalCars($em) : $car->getProcessedCars($em);
-
-        $enginePower = array();
-
-        foreach ($cars as $car) {
-            $enginePower[] = $car->getEnginepower();
-        }
-        return $enginePower;
-    }
 
     static function getMedian($array)
     {
@@ -51,36 +26,6 @@ class StatisticsHelper
             $median = $array[($quantity - 1) / 2];
         }
         return $median;
-    }
-
-    static function deleteAllCars($em)
-    {
-        $car = new Car();
-        $car->deleteAllCars($em);
-    }
-
-    static function getAllCars($em, $original = false)
-    {
-        $cars = new Car();
-        $cars = $original ? $cars->getOriginalCars($em) : $cars->getProcessedCars($em);
-
-        return $cars;
-    }
-
-    static function getCarsByEnginePower($em, $enginePower)
-    {
-        $cars = new Car();
-        $cars->getCarsByEnginePower($em, $enginePower);
-
-        return $cars;
-    }
-
-    static function getCarsByAccleration($em, $acceleration)
-    {
-        $cars = new Car();
-        $cars->getCarsByAccleration($em, $acceleration);
-
-        return $cars;
     }
 
     static function getAverage($array)
@@ -147,11 +92,41 @@ class StatisticsHelper
         return array("a" => $a, "b" => $b, "equation" => "Y = " . $a . " * X + " . $b);
     }
 
-    static function getNorm()
+    static function getDistantPoints($em, $arrayA, $arrayB)
     {
-        return array("enginePowerFrom" => 50, "enginePowerTo" => 220, "accelerationFrom" => 6, "accelerationTo" => 20);
-    }
+        $xiQ1 = StatisticsHelper::getQuartile(1, $arrayA);
+        $xiQ3 = StatisticsHelper::getQuartile(3, $arrayA);
+        $xiIRQ = $xiQ3 - $xiQ1;
 
+        $yiQ1 = StatisticsHelper::getQuartile(1, $arrayB);
+        $yiQ3 = StatisticsHelper::getQuartile(3, $arrayB);
+        $yiIRQ = $yiQ3 - $yiQ1;
+
+        $allCars = CarHelper::getAllCars($em, false);
+        $keys = array();
+
+//      xi < Q1 − 1, 5(IRQ)   ||   xi > Q3 + 1, 5(IRQ)
+        foreach ($allCars as $key => $car) {
+            $xi = $car->getEnginepower();
+            $yi = $car->getAcceleration();
+
+            if ((($xi < $xiQ1 - (1.5 * $xiIRQ)) || ($xi > $xiQ3 + (1.5 * $xiIRQ))) && (($yi < $yiQ1 - (1.5 * $yiIRQ)) || ($yi > $yiQ3 + (1.5 * $yiIRQ)))) {
+                $keys[] = $key;
+            }
+        }
+
+        $distantPoints = array();
+
+        foreach ($allCars as $key => $car) {
+            foreach ($keys as $oneKey) {
+                if ($key == $oneKey) {
+                    $distantPoints[] = $car;
+                }
+            }
+        }
+
+        return $distantPoints;
+    }
 
     static function checkTheRange($data, $from, $to)
     {
